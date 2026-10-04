@@ -1,6 +1,16 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { ArrowUp, Check, ChevronDown, Clock, Facebook, Globe, Instagram, Mail, MessageCircle } from "lucide-react";
+import {
+  ArrowUp,
+  Check,
+  ChevronDown,
+  Clock,
+  Facebook,
+  Globe,
+  Instagram,
+  Mail,
+  MessageCircle,
+} from "lucide-react";
 import logoImg from "@/assets/logo.jpeg";
 import { PHONE_NUMBER } from "@/lib/whatsapp";
 import { LANGS, LOGIN, ROUTES, SIGNUP, useLang } from "@/components/Header";
@@ -11,9 +21,63 @@ const WHATSAPP_URL = `https://wa.me/5511990047011?text=${encodeURIComponent("Ol�
 const MAP_LINK = "https://www.google.com/maps/search/?api=1&query=S%C3%A3o+Paulo%2C+SP";
 
 const F = {
-  pt: { signup: "Criar conta", discover: "Descubra", products: "Produtos e serviços", solutions: "Soluções", help: "Ajuda", plans: "Planos e valores", faq: "Perguntas frequentes", contact: "Entre em contato conosco", account: "Meu perfil", login: "Fazer login", loc: "São Paulo – SP · atendemos todo o Brasil", reply: "Resposta em até 24 horas úteis", rights: "Todos os direitos reservados.", tagline: "Sites para resultados reais.", credit: "Design feito por", top: "Voltar ao topo", lang: "Idioma" },
-  en: { signup: "Create account", discover: "Discover", products: "Products and services", solutions: "Solutions", help: "Help", plans: "Plans and pricing", faq: "FAQ", contact: "Contact us", account: "My profile", login: "Sign in", loc: "São Paulo – SP · we serve all of Brazil", reply: "Reply within 24 business hours", rights: "All rights reserved.", tagline: "Websites for real results.", credit: "Design by", top: "Back to top", lang: "Language" },
-  es: { signup: "Crear cuenta", discover: "Descubre", products: "Productos y servicios", solutions: "Soluciones", help: "Ayuda", plans: "Planes y precios", faq: "Preguntas frecuentes", contact: "Contáctenos", account: "Mi perfil", login: "Iniciar sesión", loc: "São Paulo – SP · atendemos todo Brasil", reply: "Respuesta en hasta 24 horas hábiles", rights: "Todos los derechos reservados.", tagline: "Sitios web para resultados reales.", credit: "Diseño por", top: "Volver arriba", lang: "Idioma" },
+  pt: {
+    signup: "Criar conta",
+    discover: "Descubra",
+    products: "Produtos e serviços",
+    solutions: "Soluções",
+    help: "Ajuda",
+    plans: "Planos e valores",
+    faq: "Perguntas frequentes",
+    contact: "Entre em contato conosco",
+    account: "Meu perfil",
+    login: "Fazer login",
+    loc: "São Paulo – SP · atendemos todo o Brasil",
+    reply: "Resposta em até 24 horas úteis",
+    rights: "Todos os direitos reservados.",
+    tagline: "Sites para resultados reais.",
+    credit: "Design feito por",
+    top: "Voltar ao topo",
+    lang: "Idioma",
+  },
+  en: {
+    signup: "Create account",
+    discover: "Discover",
+    products: "Products and services",
+    solutions: "Solutions",
+    help: "Help",
+    plans: "Plans and pricing",
+    faq: "FAQ",
+    contact: "Contact us",
+    account: "My profile",
+    login: "Sign in",
+    loc: "São Paulo – SP · we serve all of Brazil",
+    reply: "Reply within 24 business hours",
+    rights: "All rights reserved.",
+    tagline: "Websites for real results.",
+    credit: "Design by",
+    top: "Back to top",
+    lang: "Language",
+  },
+  es: {
+    signup: "Crear cuenta",
+    discover: "Descubre",
+    products: "Productos y servicios",
+    solutions: "Soluciones",
+    help: "Ayuda",
+    plans: "Planes y precios",
+    faq: "Preguntas frecuentes",
+    contact: "Contáctenos",
+    account: "Mi perfil",
+    login: "Iniciar sesión",
+    loc: "São Paulo – SP · atendemos todo Brasil",
+    reply: "Respuesta en hasta 24 horas hábiles",
+    rights: "Todos los derechos reservados.",
+    tagline: "Sitios web para resultados reales.",
+    credit: "Diseño por",
+    top: "Volver arriba",
+    lang: "Idioma",
+  },
 };
 
 /* CORES FIXAS (hex): o modo escuro do site não consegue inverter nem sumir com o texto.
@@ -75,46 +139,126 @@ const CSS = `
 `;
 
 function A({ h, children, className }: { h: string; children: ReactNode; className?: string }) {
-  if (h.startsWith("/#")) return <Link to="/" hash={h.slice(2)} className={className}>{children}</Link>;
-  if (ROUTES.includes(h)) return <Link to={h as "/"} className={className}>{children}</Link>;
+  if (h.startsWith("/#"))
+    return (
+      <Link to="/" hash={h.slice(2)} className={className}>
+        {children}
+      </Link>
+    );
+  if (ROUTES.includes(h))
+    return (
+      <Link to={h as "/"} className={className}>
+        {children}
+      </Link>
+    );
   const ext = h.startsWith("http");
-  return <a href={h} className={className} {...(ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}>{children}</a>;
+  return (
+    <a
+      href={h}
+      className={className}
+      {...(ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    >
+      {children}
+    </a>
+  );
 }
 
-function Reveal({ children, d = 0, className = "" }: { children: ReactNode; d?: number; className?: string }) {
+function Reveal({
+  children,
+  d = 0,
+  className = "",
+}: {
+  children: ReactNode;
+  d?: number;
+  className?: string;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const [s, setS] = useState(0);
   useEffect(() => {
     const el = ref.current;
-    if (!el || typeof IntersectionObserver === "undefined") { setS(2); return; }
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setS(2);
+      return;
+    }
     setS(1);
-    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setS(2); io.disconnect(); } }, { threshold: 0, rootMargin: "0px 0px 12% 0px" });
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setS(2);
+          io.disconnect();
+        }
+      },
+      { threshold: 0, rootMargin: "0px 0px 12% 0px" },
+    );
     io.observe(el);
     return () => io.disconnect();
   }, []);
-  return <div ref={ref} style={{ transitionDelay: `${d}ms` }} className={`${s ? "df-rv" : ""} ${s === 2 ? "in" : ""} ${className}`}>{children}</div>;
+  return (
+    <div
+      ref={ref}
+      style={{ transitionDelay: `${d}ms` }}
+      className={`${s ? "df-rv" : ""} ${s === 2 ? "in" : ""} ${className}`}
+    >
+      {children}
+    </div>
+  );
 }
 
-function LangPill({ lang, setLang, label }: { lang: keyof typeof F; setLang: (l: keyof typeof F) => void; label: string }) {
+function LangPill({
+  lang,
+  setLang,
+  label,
+}: {
+  lang: keyof typeof F;
+  setLang: (l: keyof typeof F) => void;
+  label: string;
+}) {
   const [o, setO] = useState(false);
   const r = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const f = (e: MouseEvent) => { if (r.current && !r.current.contains(e.target as Node)) setO(false); };
-    const k = (e: KeyboardEvent) => { if (e.key === "Escape") setO(false); };
+    const f = (e: MouseEvent) => {
+      if (r.current && !r.current.contains(e.target as Node)) setO(false);
+    };
+    const k = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setO(false);
+    };
     document.addEventListener("mousedown", f);
     window.addEventListener("keydown", k);
-    return () => { document.removeEventListener("mousedown", f); window.removeEventListener("keydown", k); };
+    return () => {
+      document.removeEventListener("mousedown", f);
+      window.removeEventListener("keydown", k);
+    };
   }, []);
   return (
     <div ref={r} className="df-lw">
-      <button type="button" className="df-pill df-lang" aria-haspopup="listbox" aria-expanded={o} aria-label={label} onClick={() => setO((v) => !v)}>
-        <Globe size={20} />{LANGS.find(([k]) => k === lang)![1]}<ChevronDown size={20} className={o ? "df-rot" : ""} />
+      <button
+        type="button"
+        className="df-pill df-lang"
+        aria-haspopup="listbox"
+        aria-expanded={o}
+        aria-label={label}
+        onClick={() => setO((v) => !v)}
+      >
+        <Globe size={20} />
+        {LANGS.find(([k]) => k === lang)![1]}
+        <ChevronDown size={20} className={o ? "df-rot" : ""} />
       </button>
       {o && (
         <div className="df-pop" role="listbox">
           {LANGS.map(([k, n]) => (
-            <button key={k} type="button" role="option" aria-selected={k === lang} className="df-opt" onClick={() => { setLang(k); setO(false); }}>
-              {n}{k === lang && <Check size={17} color="#62adff" />}
+            <button
+              key={k}
+              type="button"
+              role="option"
+              aria-selected={k === lang}
+              className="df-opt"
+              onClick={() => {
+                setLang(k);
+                setO(false);
+              }}
+            >
+              {n}
+              {k === lang && <Check size={17} color="#62adff" />}
             </button>
           ))}
         </div>
@@ -127,19 +271,61 @@ export function Footer() {
   const [lang, setLang] = useLang();
   const f = F[lang];
   const cols: { h: string; items: [string, string][] }[] = [
-    { h: f.discover, items: [["/", "Início"], ["/sobre", "Sobre"], ["/comunidade", "Comunidade"], ["/#planos", f.plans], ["/#faq", f.faq], ["/contato", "Contato"]] },
-    { h: f.products, items: [["/produtos", "Produtos"], ["/servicos", "Serviços"], ["/corte-e-dobra", "Corte e dobra"], ["/armaduras-prontas", "Armaduras prontas"], ["/vergalhao-ca-50", "Vergalhão CA-50"]] },
-    { h: f.solutions, items: [["/solucoes-para-construtoras", "Para construtoras"], ["/entrega-de-aco", "Entrega de aço"], ["/consultoria-tecnica", "Consultoria"], ["/orcamento-de-aco", "Orçamento"]] },
-    { h: f.help, items: [["/contato", f.contact], [WHATSAPP_URL, `WhatsApp · ${WHATSAPP_LABEL}`], [`mailto:${EMAIL}`, EMAIL], [`tel:${PHONE_NUMBER}`, "(11) 5522-9775"], ["/perfil", f.account], [LOGIN, f.login], [MAP_LINK, f.loc]] },
+    {
+      h: f.discover,
+      items: [
+        ["/", "Início"],
+        ["/sobre", "Sobre"],
+        ["/comunidade", "Comunidade"],
+        ["/#planos", f.plans],
+        ["/#faq", f.faq],
+        ["/contato", "Contato"],
+      ],
+    },
+    {
+      h: f.products,
+      items: [
+        ["/produtos", "Produtos"],
+        ["/servicos", "Serviços"],
+        ["/corte-e-dobra", "Corte e dobra"],
+        ["/armaduras-prontas", "Armaduras prontas"],
+        ["/vergalhao-ca-50", "Vergalhão CA-50"],
+      ],
+    },
+    {
+      h: f.solutions,
+      items: [
+        ["/solucoes-para-construtoras", "Para construtoras"],
+        ["/entrega-de-aco", "Entrega de aço"],
+        ["/consultoria-tecnica", "Consultoria"],
+        ["/orcamento-de-aco", "Orçamento"],
+      ],
+    },
+    {
+      h: f.help,
+      items: [
+        ["/contato", f.contact],
+        [WHATSAPP_URL, `WhatsApp · ${WHATSAPP_LABEL}`],
+        [`mailto:${EMAIL}`, EMAIL],
+        [`tel:${PHONE_NUMBER}`, "(11) 5522-9775"],
+        ["/perfil", f.account],
+        [LOGIN, f.login],
+        [MAP_LINK, f.loc],
+      ],
+    },
   ];
   return (
     /* div (e não <footer>) para não herdar regras antigas do CSS global que deixavam a footer alta */
     <div role="contentinfo" className="df" style={{ height: "auto", minHeight: 0 }}>
       <style>{CSS}</style>
-      <i className="b1" /><i className="b2" /><i className="b3" />
+      <i className="b1" />
+      <i className="b2" />
+      <i className="b3" />
       <div className="df-w">
         <Reveal className="df-top">
-          <A h={SIGNUP} className="df-pill df-white">{f.signup}</A>
+          <A h={SIGNUP} className="df-pill df-white">
+            {f.signup}
+          </A>
           <LangPill lang={lang} setLang={setLang} label={f.lang} />
         </Reveal>
 
@@ -147,25 +333,89 @@ export function Footer() {
           {cols.map((c, k) => (
             <Reveal key={c.h} d={k * 90}>
               <p className="df-h">{c.h}</p>
-              <ul className="df-ul">{c.items.map(([h, n]) => <li key={h + n}><A h={h} className="df-l">{n}</A></li>)}</ul>
-              {k === cols.length - 1 && <p className="df-note"><Clock size={15} color="#62adff" />{f.reply}</p>}
+              <ul className="df-ul">
+                {c.items.map(([h, n]) => (
+                  <li key={h + n}>
+                    <A h={h} className="df-l">
+                      {n}
+                    </A>
+                  </li>
+                ))}
+              </ul>
+              {k === cols.length - 1 && (
+                <p className="df-note">
+                  <Clock size={15} color="#62adff" />
+                  {f.reply}
+                </p>
+              )}
             </Reveal>
           ))}
         </div>
 
         <Reveal className="df-bot">
           <div className="df-brand">
-            <span className="df-logo"><img src={logoImg} alt="Logo Diamante Dev" /></span>
-            <div><p className="df-name">Diamante Dev</p><p className="df-sub">{f.tagline}</p></div>
+            <span className="df-logo">
+              <img src={logoImg} alt="Logo Diamante Dev" />
+            </span>
+            <div>
+              <p className="df-name">Diamante Dev</p>
+              <p className="df-sub">{f.tagline}</p>
+            </div>
           </div>
-          <p className="df-copy">© {new Date().getFullYear()} Diamante Dev. {f.rights}</p>
+          <p className="df-copy">
+            © {new Date().getFullYear()} Diamante Dev. {f.rights}
+          </p>
           <div className="df-end">
-            <a className="df-so" href="https://www.instagram.com/novablldobrasil/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram"><Instagram size={19} /></a>
-            <a className="df-so" href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook"><Facebook size={19} /></a>
-            <a className="df-so" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp"><MessageCircle size={19} /></a>
-            <a className="df-so" href={`mailto:${EMAIL}`} aria-label="E-mail" title="E-mail"><Mail size={19} /></a>
-            <a className="df-cr" href="https://www.instagram.com/igoreduardo.dev/?hl=en" target="_blank" rel="noopener noreferrer">{f.credit} Igor Eduardo</a>
-            <button type="button" className="df-so" aria-label={f.top} title={f.top} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}><ArrowUp size={19} /></button>
+            <a
+              className="df-so"
+              href="https://www.instagram.com/novablldobrasil/?hl=en"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              title="Instagram"
+            >
+              <Instagram size={19} />
+            </a>
+            <a
+              className="df-so"
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              title="Facebook"
+            >
+              <Facebook size={19} />
+            </a>
+            <a
+              className="df-so"
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp"
+              title="WhatsApp"
+            >
+              <MessageCircle size={19} />
+            </a>
+            <a className="df-so" href={`mailto:${EMAIL}`} aria-label="E-mail" title="E-mail">
+              <Mail size={19} />
+            </a>
+            <a
+              className="df-cr"
+              href="https://www.instagram.com/igoreduardo.dev/?hl=en"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {f.credit} Igor Eduardo
+            </a>
+            <button
+              type="button"
+              className="df-so"
+              aria-label={f.top}
+              title={f.top}
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            >
+              <ArrowUp size={19} />
+            </button>
           </div>
         </Reveal>
       </div>

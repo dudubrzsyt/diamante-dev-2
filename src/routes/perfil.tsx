@@ -203,7 +203,9 @@ function Perfil() {
     }
 
     if (validatePasswordStrength(createAccountData.password).score < 2) {
-      setCreateError("Senha muito fraca. Use maiúsculas, minúsculas, números e caracteres especiais");
+      setCreateError(
+        "Senha muito fraca. Use maiúsculas, minúsculas, números e caracteres especiais",
+      );
       return;
     }
 
@@ -223,12 +225,20 @@ function Perfil() {
         };
 
         localStorage.setItem(PROFILE_KEY, JSON.stringify(newProfile));
-        localStorage.setItem(SECURITY_KEY, JSON.stringify({ password: createAccountData.password }));
+        localStorage.setItem(
+          SECURITY_KEY,
+          JSON.stringify({ password: createAccountData.password }),
+        );
 
-        const profiles = JSON.parse(localStorage.getItem("nova-bill-profiles") || "[]") as Profile[];
+        const profiles = JSON.parse(
+          localStorage.getItem("nova-bill-profiles") || "[]",
+        ) as Profile[];
         localStorage.setItem(
           "nova-bill-profiles",
-          JSON.stringify([...profiles.filter((item) => item.email !== createAccountData.email), newProfile])
+          JSON.stringify([
+            ...profiles.filter((item) => item.email !== createAccountData.email),
+            newProfile,
+          ]),
         );
 
         recordAnalyticsEvent("profile", "Conta criada", {
@@ -239,7 +249,14 @@ function Perfil() {
         setProfile(newProfile);
         setHasAccount(true);
         setIsCreatingAccount(false);
-        setCreateAccountData({ name: "", email: "", password: "", passwordConfirm: "", phone: "", newsletter: true });
+        setCreateAccountData({
+          name: "",
+          email: "",
+          password: "",
+          passwordConfirm: "",
+          phone: "",
+          newsletter: true,
+        });
         setSuccess("Conta criada com sucesso! 🎉");
         setTimeout(() => setSuccess(""), 3000);
         loadSessions();
@@ -359,7 +376,13 @@ function Perfil() {
         const updated = { ...profile, twoFactorEnabled: true };
         setProfile(updated);
         localStorage.setItem(PROFILE_KEY, JSON.stringify(updated));
-        localStorage.setItem(SECURITY_KEY, JSON.stringify({ ...JSON.parse(localStorage.getItem(SECURITY_KEY) || "{}"), twoFactorSecret: "secret-" + Math.random() }));
+        localStorage.setItem(
+          SECURITY_KEY,
+          JSON.stringify({
+            ...JSON.parse(localStorage.getItem(SECURITY_KEY) || "{}"),
+            twoFactorSecret: "secret-" + Math.random(),
+          }),
+        );
 
         recordAnalyticsEvent("profile", "2FA ativado");
 
@@ -457,7 +480,12 @@ function Perfil() {
 
   // Deletar conta
   function deleteAccount() {
-    if (!window.confirm("Tem certeza? Esta ação não pode ser desfeita. Todos seus dados serão perdidos permanentemente.")) return;
+    if (
+      !window.confirm(
+        "Tem certeza? Esta ação não pode ser desfeita. Todos seus dados serão perdidos permanentemente.",
+      )
+    )
+      return;
 
     setLoading(true);
 
@@ -497,7 +525,9 @@ function Perfil() {
               <User className="text-brand-yellow" size={32} />
             </div>
             <h2 className="mt-6 text-2xl font-black text-white">Sem conta ativa</h2>
-            <p className="mt-3 text-slate-400">Crie sua conta para acompanhar relacionamento com a Nova Bll.</p>
+            <p className="mt-3 text-slate-400">
+              Crie sua conta para acompanhar relacionamento com a Nova Bll.
+            </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row justify-center">
               <button
                 onClick={() => setIsCreatingAccount(true)}
@@ -557,7 +587,9 @@ function Perfil() {
                 <input
                   type="text"
                   value={createAccountData.name}
-                  onChange={(e) => setCreateAccountData({ ...createAccountData, name: e.target.value })}
+                  onChange={(e) =>
+                    setCreateAccountData({ ...createAccountData, name: e.target.value })
+                  }
                   className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-3 text-white placeholder:text-slate-500 focus:border-brand-yellow focus:outline-none focus:ring-2 focus:ring-brand-yellow/20 transition-all duration-300"
                   placeholder="Seu nome"
                   required
@@ -573,7 +605,9 @@ function Perfil() {
                 <input
                   type="email"
                   value={createAccountData.email}
-                  onChange={(e) => setCreateAccountData({ ...createAccountData, email: e.target.value })}
+                  onChange={(e) =>
+                    setCreateAccountData({ ...createAccountData, email: e.target.value })
+                  }
                   className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-3 text-white placeholder:text-slate-500 focus:border-brand-yellow focus:outline-none focus:ring-2 focus:ring-brand-yellow/20 transition-all duration-300"
                   placeholder="seu@email.com"
                   required
@@ -589,7 +623,9 @@ function Perfil() {
                 <input
                   type="tel"
                   value={createAccountData.phone}
-                  onChange={(e) => setCreateAccountData({ ...createAccountData, phone: e.target.value })}
+                  onChange={(e) =>
+                    setCreateAccountData({ ...createAccountData, phone: e.target.value })
+                  }
                   className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-3 text-white placeholder:text-slate-500 focus:border-brand-yellow focus:outline-none focus:ring-2 focus:ring-brand-yellow/20 transition-all duration-300"
                   placeholder="(11) 99999-9999"
                 />
@@ -630,30 +666,44 @@ function Perfil() {
                         <div
                           key={i}
                           className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${
-                            i < passwordStrength.score ? passwordStrength.color.replace("text-", "bg-") : "bg-slate-700"
+                            i < passwordStrength.score
+                              ? passwordStrength.color.replace("text-", "bg-")
+                              : "bg-slate-700"
                           }`}
                         />
                       ))}
                     </div>
-                    <p className={`text-xs font-bold ${passwordStrength.color}`}>{passwordStrength.label}</p>
+                    <p className={`text-xs font-bold ${passwordStrength.color}`}>
+                      {passwordStrength.label}
+                    </p>
                   </div>
                 )}
 
                 {/* Requisitos */}
                 <div className="grid grid-cols-2 gap-2 pt-2">
-                  <p className={`text-xs flex items-center gap-1 ${createAccountData.password.length >= 8 ? "text-green-500" : "text-slate-500"}`}>
+                  <p
+                    className={`text-xs flex items-center gap-1 ${createAccountData.password.length >= 8 ? "text-green-500" : "text-slate-500"}`}
+                  >
                     <Check size={12} /> Mín. 8 caracteres
                   </p>
-                  <p className={`text-xs flex items-center gap-1 ${/[A-Z]/.test(createAccountData.password) ? "text-green-500" : "text-slate-500"}`}>
+                  <p
+                    className={`text-xs flex items-center gap-1 ${/[A-Z]/.test(createAccountData.password) ? "text-green-500" : "text-slate-500"}`}
+                  >
                     <Check size={12} /> Maiúscula
                   </p>
-                  <p className={`text-xs flex items-center gap-1 ${/[a-z]/.test(createAccountData.password) ? "text-green-500" : "text-slate-500"}`}>
+                  <p
+                    className={`text-xs flex items-center gap-1 ${/[a-z]/.test(createAccountData.password) ? "text-green-500" : "text-slate-500"}`}
+                  >
                     <Check size={12} /> Minúscula
                   </p>
-                  <p className={`text-xs flex items-center gap-1 ${/\d/.test(createAccountData.password) ? "text-green-500" : "text-slate-500"}`}>
+                  <p
+                    className={`text-xs flex items-center gap-1 ${/\d/.test(createAccountData.password) ? "text-green-500" : "text-slate-500"}`}
+                  >
                     <Check size={12} /> Número
                   </p>
-                  <p className={`text-xs flex items-center gap-1 ${/[!@#$%^&*(),.?":{}|<>]/.test(createAccountData.password) ? "text-green-500" : "text-slate-500"}`}>
+                  <p
+                    className={`text-xs flex items-center gap-1 ${/[!@#$%^&*(),.?":{}|<>]/.test(createAccountData.password) ? "text-green-500" : "text-slate-500"}`}
+                  >
                     <Check size={12} /> Caractere especial
                   </p>
                 </div>
@@ -668,15 +718,25 @@ function Perfil() {
                 <input
                   type="password"
                   value={createAccountData.passwordConfirm}
-                  onChange={(e) => setCreateAccountData({ ...createAccountData, passwordConfirm: e.target.value })}
+                  onChange={(e) =>
+                    setCreateAccountData({ ...createAccountData, passwordConfirm: e.target.value })
+                  }
                   className="w-full rounded-lg border border-slate-700 bg-slate-800 px-4 py-3 text-white placeholder:text-slate-500 focus:border-brand-yellow focus:outline-none focus:ring-2 focus:ring-brand-yellow/20 transition-all duration-300"
                   placeholder="••••••••"
                   required
                 />
                 {createAccountData.password && createAccountData.passwordConfirm && (
-                  <p className={`text-xs flex items-center gap-1 ${createAccountData.password === createAccountData.passwordConfirm ? "text-green-500" : "text-red-500"}`}>
-                    {createAccountData.password === createAccountData.passwordConfirm ? <Check size={12} /> : <X size={12} />}
-                    {createAccountData.password === createAccountData.passwordConfirm ? "Senhas coincidem" : "Senhas não coincidem"}
+                  <p
+                    className={`text-xs flex items-center gap-1 ${createAccountData.password === createAccountData.passwordConfirm ? "text-green-500" : "text-red-500"}`}
+                  >
+                    {createAccountData.password === createAccountData.passwordConfirm ? (
+                      <Check size={12} />
+                    ) : (
+                      <X size={12} />
+                    )}
+                    {createAccountData.password === createAccountData.passwordConfirm
+                      ? "Senhas coincidem"
+                      : "Senhas não coincidem"}
                   </p>
                 )}
               </div>
@@ -686,10 +746,14 @@ function Perfil() {
                 <input
                   type="checkbox"
                   checked={createAccountData.newsletter}
-                  onChange={(e) => setCreateAccountData({ ...createAccountData, newsletter: e.target.checked })}
+                  onChange={(e) =>
+                    setCreateAccountData({ ...createAccountData, newsletter: e.target.checked })
+                  }
                   className="mt-1 h-4 w-4 accent-brand-yellow cursor-pointer"
                 />
-                <p className="text-sm font-semibold text-slate-400">Receber novidades, dicas e oportunidades da Nova Bll do Brasil por email.</p>
+                <p className="text-sm font-semibold text-slate-400">
+                  Receber novidades, dicas e oportunidades da Nova Bll do Brasil por email.
+                </p>
               </label>
 
               {/* Botões */}
@@ -776,7 +840,9 @@ function Perfil() {
 
               {/* Info */}
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.25em] text-brand-yellow">Conta ativa</p>
+                <p className="text-xs font-black uppercase tracking-[0.25em] text-brand-yellow">
+                  Conta ativa
+                </p>
                 <h2 className="mt-2 text-3xl font-black text-white">{profile.name}</h2>
                 <p className="mt-2 flex items-center gap-2 text-sm font-semibold text-slate-400">
                   <Mail size={16} className="text-brand-yellow" />
@@ -953,11 +1019,19 @@ function Perfil() {
                       <Smartphone size={20} className="text-brand-yellow" />
                       Autenticação em duas etapas
                     </h3>
-                    <p className="mt-2 text-sm text-slate-400">Adicione uma camada extra de segurança à sua conta.</p>
+                    <p className="mt-2 text-sm text-slate-400">
+                      Adicione uma camada extra de segurança à sua conta.
+                    </p>
                   </div>
-                  <div className={`flex items-center gap-2 rounded-lg px-3 py-1.5 ${profile.twoFactorEnabled ? "bg-green-500/20" : "bg-red-500/20"}`}>
-                    <span className={`h-2 w-2 rounded-full ${profile.twoFactorEnabled ? "bg-green-500" : "bg-red-500"}`} />
-                    <span className={`text-xs font-bold ${profile.twoFactorEnabled ? "text-green-500" : "text-red-500"}`}>
+                  <div
+                    className={`flex items-center gap-2 rounded-lg px-3 py-1.5 ${profile.twoFactorEnabled ? "bg-green-500/20" : "bg-red-500/20"}`}
+                  >
+                    <span
+                      className={`h-2 w-2 rounded-full ${profile.twoFactorEnabled ? "bg-green-500" : "bg-red-500"}`}
+                    />
+                    <span
+                      className={`text-xs font-bold ${profile.twoFactorEnabled ? "text-green-500" : "text-red-500"}`}
+                    >
                       {profile.twoFactorEnabled ? "Ativo" : "Inativo"}
                     </span>
                   </div>
@@ -984,7 +1058,8 @@ function Perfil() {
                 ) : (
                   <div className="space-y-4 animate-slideDown">
                     <p className="text-sm text-slate-400">
-                      Escaneie este código QR com seu app autenticador ou insira o código manualmente:
+                      Escaneie este código QR com seu app autenticador ou insira o código
+                      manualmente:
                     </p>
                     <div className="bg-white p-4 rounded-lg w-fit mx-auto">
                       <div className="w-32 h-32 bg-slate-300 flex items-center justify-center rounded">
@@ -993,7 +1068,9 @@ function Perfil() {
                     </div>
                     <form onSubmit={handleVerify2FA} className="space-y-4">
                       <div>
-                        <label className="text-xs font-bold text-slate-400 block mb-2">Digite o código de 6 dígitos:</label>
+                        <label className="text-xs font-bold text-slate-400 block mb-2">
+                          Digite o código de 6 dígitos:
+                        </label>
                         <input
                           type="text"
                           maxLength={6}
@@ -1061,7 +1138,9 @@ function Perfil() {
 
                     {/* Senha Atual */}
                     <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase text-slate-400">Senha atual</label>
+                      <label className="text-xs font-bold uppercase text-slate-400">
+                        Senha atual
+                      </label>
                       <div className="relative">
                         <input
                           type={showPassword ? "text" : "password"}
@@ -1082,7 +1161,9 @@ function Perfil() {
 
                     {/* Nova Senha */}
                     <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase text-slate-400">Nova senha</label>
+                      <label className="text-xs font-bold uppercase text-slate-400">
+                        Nova senha
+                      </label>
                       <input
                         type="password"
                         value={newPassword}
@@ -1100,19 +1181,25 @@ function Perfil() {
                               <div
                                 key={i}
                                 className={`h-1 flex-1 rounded-full transition-all duration-300 ${
-                                  i < passwordStrength.score ? passwordStrength.color.replace("text-", "bg-") : "bg-slate-700"
+                                  i < passwordStrength.score
+                                    ? passwordStrength.color.replace("text-", "bg-")
+                                    : "bg-slate-700"
                                 }`}
                               />
                             ))}
                           </div>
-                          <p className={`text-xs font-bold ${passwordStrength.color}`}>{passwordStrength.label}</p>
+                          <p className={`text-xs font-bold ${passwordStrength.color}`}>
+                            {passwordStrength.label}
+                          </p>
                         </div>
                       )}
                     </div>
 
                     {/* Confirmar Senha */}
                     <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase text-slate-400">Confirmar nova senha</label>
+                      <label className="text-xs font-bold uppercase text-slate-400">
+                        Confirmar nova senha
+                      </label>
                       <input
                         type="password"
                         value={confirmPassword}
@@ -1160,7 +1247,9 @@ function Perfil() {
               {/* Info de Segurança */}
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="rounded-lg border border-slate-700 bg-slate-800/50 p-4 transition-all duration-300 hover:border-slate-600">
-                  <p className="text-xs font-bold uppercase text-slate-400">Última alteração de senha</p>
+                  <p className="text-xs font-bold uppercase text-slate-400">
+                    Última alteração de senha
+                  </p>
                   <p className="mt-2 text-lg font-black text-white">
                     {profile.passwordLastChanged
                       ? new Date(profile.passwordLastChanged).toLocaleDateString("pt-BR")
@@ -1184,16 +1273,37 @@ function Perfil() {
                 <h3 className="text-lg font-black text-white mb-6">Notificações por email</h3>
                 <div className="space-y-4">
                   {[
-                    { key: "newsUpdates", label: "Novidades e atualizações", description: "Receba as últimas notícias" },
-                    { key: "promotions", label: "Ofertas e promoções", description: "Aproveite descontos exclusivos" },
-                    { key: "weeklyReports", label: "Relatórios semanais", description: "Resuma semanal de atividades" },
-                    { key: "orderConfirmation", label: "Confirmação de pedidos", description: "Notificações de pedidos importantes" },
+                    {
+                      key: "newsUpdates",
+                      label: "Novidades e atualizações",
+                      description: "Receba as últimas notícias",
+                    },
+                    {
+                      key: "promotions",
+                      label: "Ofertas e promoções",
+                      description: "Aproveite descontos exclusivos",
+                    },
+                    {
+                      key: "weeklyReports",
+                      label: "Relatórios semanais",
+                      description: "Resuma semanal de atividades",
+                    },
+                    {
+                      key: "orderConfirmation",
+                      label: "Confirmação de pedidos",
+                      description: "Notificações de pedidos importantes",
+                    },
                   ].map((item) => (
-                    <label key={item.key} className="flex items-start gap-3 rounded-lg border border-slate-700 bg-slate-800/50 p-4 cursor-pointer hover:bg-slate-800 transition-all duration-300">
+                    <label
+                      key={item.key}
+                      className="flex items-start gap-3 rounded-lg border border-slate-700 bg-slate-800/50 p-4 cursor-pointer hover:bg-slate-800 transition-all duration-300"
+                    >
                       <input
                         type="checkbox"
                         checked={preferences[item.key as keyof typeof preferences]}
-                        onChange={(e) => setPreferences({ ...preferences, [item.key]: e.target.checked })}
+                        onChange={(e) =>
+                          setPreferences({ ...preferences, [item.key]: e.target.checked })
+                        }
                         className="mt-1 h-4 w-4 accent-brand-yellow cursor-pointer"
                       />
                       <div className="flex-1">
@@ -1227,7 +1337,10 @@ function Perfil() {
             <div className="space-y-4">
               {sessions.length > 0 ? (
                 sessions.map((session) => (
-                  <div key={session.id} className="rounded-lg border border-slate-700 bg-slate-800/50 p-6 transition-all duration-300 hover:border-slate-600 hover:shadow-lg hover:shadow-brand-yellow/5 animate-fadeIn">
+                  <div
+                    key={session.id}
+                    className="rounded-lg border border-slate-700 bg-slate-800/50 p-6 transition-all duration-300 hover:border-slate-600 hover:shadow-lg hover:shadow-brand-yellow/5 animate-fadeIn"
+                  >
                     <div className="flex items-start justify-between">
                       <div className="flex gap-4 flex-1">
                         <div className="grid h-12 w-12 place-items-center rounded-lg bg-slate-700 flex-shrink-0">
@@ -1280,7 +1393,10 @@ function Perfil() {
             <Download size={20} className="text-brand-yellow" />
             Dados da sua conta
           </h3>
-          <p className="mt-2 text-sm text-slate-400 mb-6">Baixe uma cópia de todos seus dados pessoais em formato JSON para arquivo pessoal ou portabilidade.</p>
+          <p className="mt-2 text-sm text-slate-400 mb-6">
+            Baixe uma cópia de todos seus dados pessoais em formato JSON para arquivo pessoal ou
+            portabilidade.
+          </p>
           <button
             onClick={exportUserData}
             className="inline-flex items-center gap-2 rounded-lg border border-slate-600 bg-slate-900 px-4 py-3 text-sm font-bold text-slate-300 hover:bg-slate-800 hover:border-slate-500 transition-all duration-300 hover:scale-105"
