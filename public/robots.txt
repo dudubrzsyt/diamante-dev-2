@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /AdminUsuarios
+Disallow: /admin
+Disallow: /perfil
+
+Sitemap: https://novabill.com.br/sitemap.xml
