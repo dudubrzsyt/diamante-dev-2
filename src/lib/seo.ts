@@ -1,6 +1,7 @@
 export const SITE_URL = import.meta.env.VITE_SITE_URL ?? "https://novabill.com.br";
 export const SITE_NAME = "BLL do Brasil";
-export const SITE_DESCRIPTION = "Soluções em corte, dobra e fabricação de estruturas metálicas para indústria, logística, construção civil e postos de combustíveis.";
+export const SITE_DESCRIPTION =
+  "Soluções em corte, dobra e fabricação de estruturas metálicas para indústria, logística, construção civil e postos de combustíveis.";
 export const ORGANIZATION_ID = `${SITE_URL}/#organization`;
 
 export interface BreadcrumbItem {
@@ -42,7 +43,12 @@ export function itemListSchema(items: { name: string; description: string }[], p
     itemListElement: items.map((item, position) => ({
       "@type": "ListItem",
       position: position + 1,
-      item: { "@type": "Product", name: item.name, description: item.description, url: absoluteUrl(path) },
+      item: {
+        "@type": "Product",
+        name: item.name,
+        description: item.description,
+        url: absoluteUrl(path),
+      },
     })),
   };
 }

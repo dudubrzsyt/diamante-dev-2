@@ -1,15 +1,37 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { ArrowRight, Check, ChevronDown, ClipboardCheck, Clock, Gem, MessageCircle, Rocket, Search, ShieldCheck, Smartphone, Star, X } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  ChevronDown,
+  ClipboardCheck,
+  Clock,
+  Gem,
+  MessageCircle,
+  Rocket,
+  Search,
+  ShieldCheck,
+  Smartphone,
+  Star,
+  X,
+} from "lucide-react";
 import { absoluteUrl } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Diamante Dev — Sites que geram resultado" },
-      { name: "description", content: "Criamos sites rápidos, bonitos e feitos para trazer clientes para o seu negócio. Veja os planos, os valores e por que cada site se paga." },
+      {
+        name: "description",
+        content:
+          "Criamos sites rápidos, bonitos e feitos para trazer clientes para o seu negócio. Veja os planos, os valores e por que cada site se paga.",
+      },
       { property: "og:title", content: "Diamante Dev — Sites que geram resultado" },
-      { property: "og:description", content: "Sites profissionais que aparecem no Google, funcionam no celular e transformam visitas em clientes." },
+      {
+        property: "og:description",
+        content:
+          "Sites profissionais que aparecem no Google, funcionam no celular e transformam visitas em clientes.",
+      },
       { property: "og:url", content: absoluteUrl("/") },
     ],
     links: [{ rel: "canonical", href: absoluteUrl("/") }],
@@ -22,11 +44,50 @@ const WHATS = "https://wa.me/5511999999999"; // seu WhatsApp
 const INTERNAL = ["/contato", "/sobre"]; // rotas que usam <Link>
 /* VALORES E PRAZOS SÃO EXEMPLOS: ajuste aqui e a página inteira se atualiza. */
 const PLANS = [
-  { n: "Essencial", p: 1500, f: "Para quem está começando e quer ser encontrado.", list: ["Página única, direta e bonita", "Funciona perfeito no celular", "Botão de WhatsApp para o cliente chamar", "Site publicado e no ar"], why: "Cobre o básico para você parar de perder cliente para quem já tem site." },
-  { n: "Profissional", p: 5000, hot: true, f: "Para quem quer vender mais todos os meses.", list: ["Até 6 páginas (início, serviços, sobre, contato…)", "Textos escritos para convencer", "Aparece no Google", "Carrega em instantes", "Animações que prendem a atenção", "1 mês de suporte"], why: "Aqui o site deixa de ser cartão de visita e vira um vendedor que trabalha 24 horas." },
-  { n: "Premium", p: 12000, f: "Para marcas que querem ser lembradas.", list: ["Tudo do Profissional", "Design 100% exclusivo", "Efeitos 3D e animações avançadas", "Loja virtual ou agendamento online", "Painel para você editar sozinho", "3 meses de suporte"], why: "Para quem quer passar valor no primeiro olhar e se destacar dos concorrentes." },
+  {
+    n: "Essencial",
+    p: 1500,
+    f: "Para quem está começando e quer ser encontrado.",
+    list: [
+      "Página única, direta e bonita",
+      "Funciona perfeito no celular",
+      "Botão de WhatsApp para o cliente chamar",
+      "Site publicado e no ar",
+    ],
+    why: "Cobre o básico para você parar de perder cliente para quem já tem site.",
+  },
+  {
+    n: "Profissional",
+    p: 5000,
+    hot: true,
+    f: "Para quem quer vender mais todos os meses.",
+    list: [
+      "Até 6 páginas (início, serviços, sobre, contato…)",
+      "Textos escritos para convencer",
+      "Aparece no Google",
+      "Carrega em instantes",
+      "Animações que prendem a atenção",
+      "1 mês de suporte",
+    ],
+    why: "Aqui o site deixa de ser cartão de visita e vira um vendedor que trabalha 24 horas.",
+  },
+  {
+    n: "Premium",
+    p: 12000,
+    f: "Para marcas que querem ser lembradas.",
+    list: [
+      "Tudo do Profissional",
+      "Design 100% exclusivo",
+      "Efeitos 3D e animações avançadas",
+      "Loja virtual ou agendamento online",
+      "Painel para você editar sozinho",
+      "3 meses de suporte",
+    ],
+    why: "Para quem quer passar valor no primeiro olhar e se destacar dos concorrentes.",
+  },
 ];
-const brl = (v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
+const brl = (v: number) =>
+  v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
 
 const CSS = `
 @property --a{syntax:"<angle>";inherits:false;initial-value:0deg}
@@ -132,30 +193,98 @@ function Home() {
 }
 
 /* ---------- utilitários ---------- */
-function A({ h, children, className, onClick }: { h: string; children: ReactNode; className?: string; onClick?: () => void }) {
-  if (INTERNAL.includes(h)) return <Link to={h as "/contato"} className={className} onClick={onClick}>{children}</Link>;
+function A({
+  h,
+  children,
+  className,
+  onClick,
+}: {
+  h: string;
+  children: ReactNode;
+  className?: string;
+  onClick?: () => void;
+}) {
+  if (INTERNAL.includes(h))
+    return (
+      <Link to={h as "/contato"} className={className} onClick={onClick}>
+        {children}
+      </Link>
+    );
   const ext = h.startsWith("http");
-  return <a href={h} className={className} onClick={onClick} {...(ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}>{children}</a>;
+  return (
+    <a
+      href={h}
+      className={className}
+      onClick={onClick}
+      {...(ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    >
+      {children}
+    </a>
+  );
 }
 
-function Reveal({ children, d = 0, className = "" }: { children: ReactNode; d?: number; className?: string }) {
+function Reveal({
+  children,
+  d = 0,
+  className = "",
+}: {
+  children: ReactNode;
+  d?: number;
+  className?: string;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const [s, setS] = useState(0);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     setS(1);
-    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setS(2); io.disconnect(); } }, { threshold: 0.1 });
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setS(2);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.1 },
+    );
     io.observe(el);
     return () => io.disconnect();
   }, []);
-  return <div ref={ref} style={{ transitionDelay: `${d}ms` }} className={`${s ? "dd-rv" : ""} ${s === 2 ? "in" : ""} ${className}`}>{children}</div>;
+  return (
+    <div
+      ref={ref}
+      style={{ transitionDelay: `${d}ms` }}
+      className={`${s ? "dd-rv" : ""} ${s === 2 ? "in" : ""} ${className}`}
+    >
+      {children}
+    </div>
+  );
 }
 
-const Tick = () => <span className="dd-tick"><Check size={15} strokeWidth={3} /></span>;
-const Aurora = () => <><i className="bl bl1" /><i className="bl bl2" /><i className="bl bl3" /></>;
-const Sec = ({ id, className = "", children }: { id?: string; className?: string; children: ReactNode }) => (
-  <section id={id} className={`dd-sec scroll-mt-28 ${className}`}><div className="dd-w">{children}</div></section>
+const Tick = () => (
+  <span className="dd-tick">
+    <Check size={15} strokeWidth={3} />
+  </span>
+);
+const Aurora = () => (
+  <>
+    <i className="bl bl1" />
+    <i className="bl bl2" />
+    <i className="bl bl3" />
+  </>
+);
+const Sec = ({
+  id,
+  className = "",
+  children,
+}: {
+  id?: string;
+  className?: string;
+  children: ReactNode;
+}) => (
+  <section id={id} className={`dd-sec scroll-mt-28 ${className}`}>
+    <div className="dd-w">{children}</div>
+  </section>
 );
 
 /* ---------- ilustração do hero ---------- */
@@ -171,14 +300,38 @@ function Art() {
   ];
   return (
     <svg viewBox="0 0 540 540" className="dd-float h-auto w-full max-w-[680px]" aria-hidden>
-      <defs><radialGradient id="ddg" cx=".38" cy=".32" r=".85"><stop offset="0" stopColor="#b4e8fc" /><stop offset="1" stopColor="#6cc6f2" /></radialGradient></defs>
+      <defs>
+        <radialGradient id="ddg" cx=".38" cy=".32" r=".85">
+          <stop offset="0" stopColor="#b4e8fc" />
+          <stop offset="1" stopColor="#6cc6f2" />
+        </radialGradient>
+      </defs>
       <circle cx="270" cy="250" r="230" fill="url(#ddg)" />
-      <g fill="none" stroke="#10151c" strokeWidth="2.6" strokeLinecap="round">{paths.map((p) => <path key={p.d} d={p.d} className="dd-draw" />)}</g>
-      <g fill="#0a4fc4">{paths.flatMap((p) => [p.a, p.b]).map(([x, y], i) => <circle key={`${x}-${y}`} cx={x} cy={y} r="11" className="dd-dot" style={{ animationDelay: `${i * 160}ms` }} />)}</g>
+      <g fill="none" stroke="#10151c" strokeWidth="2.6" strokeLinecap="round">
+        {paths.map((p) => (
+          <path key={p.d} d={p.d} className="dd-draw" />
+        ))}
+      </g>
+      <g fill="#0a4fc4">
+        {paths
+          .flatMap((p) => [p.a, p.b])
+          .map(([x, y], i) => (
+            <circle
+              key={`${x}-${y}`}
+              cx={x}
+              cy={y}
+              r="11"
+              className="dd-dot"
+              style={{ animationDelay: `${i * 160}ms` }}
+            />
+          ))}
+      </g>
       <path d="M330 540 a85 85 0 0 1 170 0z" fill="#a855f7" />
       <g transform="rotate(26 440 430)">
-        <rect x="408" y="310" width="38" height="190" rx="19" fill="#b4bfce" /><rect x="452" y="300" width="38" height="200" rx="19" fill="#94a3b8" />
-        <circle cx="427" cy="329" r="9" fill="#9fd9fb" /><circle cx="471" cy="320" r="9" fill="#f9b4e6" />
+        <rect x="408" y="310" width="38" height="190" rx="19" fill="#b4bfce" />
+        <rect x="452" y="300" width="38" height="200" rx="19" fill="#94a3b8" />
+        <circle cx="427" cy="329" r="9" fill="#9fd9fb" />
+        <circle cx="471" cy="320" r="9" fill="#f9b4e6" />
       </g>
     </svg>
   );
@@ -191,22 +344,41 @@ function Hero() {
       <Aurora />
       <div className="dd-w relative grid items-center gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,.8fr)]">
         <div className="dd-card dd-slam">
-          <p className="mb-5 font-bold text-[color:var(--blue)]">Diamante Dev · sites profissionais desde 2025</p>
+          <p className="mb-5 font-bold text-[color:var(--blue)]">
+            Diamante Dev · sites profissionais desde 2025
+          </p>
           <h1 className="dd-h1">Sites que trazem clientes e fazem o seu negócio crescer</h1>
-          <p className="dd-lead mt-7 max-w-2xl">Hoje, antes de ligar ou visitar a loja, o cliente procura você no Google. Criamos o site que aparece, passa confiança e faz o telefone tocar. Rápido, bonito e pronto para o celular.</p>
+          <p className="dd-lead mt-7 max-w-2xl">
+            Hoje, antes de ligar ou visitar a loja, o cliente procura você no Google. Criamos o site
+            que aparece, passa confiança e faz o telefone tocar. Rápido, bonito e pronto para o
+            celular.
+          </p>
           <div className="mt-10 flex flex-wrap gap-4">
-            <a href="#planos" className="dd-btn">Ver planos e valores</a>
-            <Link to="/contato" className="dd-btn-o">Pedir orçamento grátis</Link>
+            <a href="#planos" className="dd-btn">
+              Ver planos e valores
+            </a>
+            <Link to="/contato" className="dd-btn-o">
+              Pedir orçamento grátis
+            </Link>
           </div>
         </div>
-        <div className="dd-slam flex justify-center lg:justify-end" style={{ animationDelay: ".2s" }}><Art /></div>
+        <div
+          className="dd-slam flex justify-center lg:justify-end"
+          style={{ animationDelay: ".2s" }}
+        >
+          <Art />
+        </div>
       </div>
     </section>
   );
 }
 
 function Stats() {
-  const s = [["32 dias", "em média, para o site ir ao ar"], ["100%", "do site é seu, sem ficar preso a ninguém"], ["24h", "para você receber resposta no WhatsApp"]];
+  const s = [
+    ["32 dias", "em média, para o site ir ao ar"],
+    ["100%", "do site é seu, sem ficar preso a ninguém"],
+    ["24h", "para você receber resposta no WhatsApp"],
+  ];
   return (
     <div className="dd-curve">
       <div className="dd-w pb-4">
@@ -214,7 +386,9 @@ function Stats() {
           {s.map(([n, l], k) => (
             <Reveal key={n} d={k * 110}>
               <div className="border-l-4 border-[color:var(--blue)] pl-6">
-                <p className="text-[clamp(3rem,6vw,5rem)] font-medium leading-none tracking-tight">{n}</p>
+                <p className="text-[clamp(3rem,6vw,5rem)] font-medium leading-none tracking-tight">
+                  {n}
+                </p>
                 <p className="dd-p mt-3 max-w-[24ch]">{l}</p>
               </div>
             </Reveal>
@@ -227,24 +401,53 @@ function Stats() {
 
 function Included() {
   const items = [
-    { i: Search, t: "Seus clientes encontram você", d: "Preparamos o site para aparecer quando alguém pesquisa o que você vende, na sua região." },
-    { i: Rocket, t: "Abre em instantes", d: "Quem espera demais fecha a página. O nosso carrega rápido, e você não perde a visita." },
-    { i: Smartphone, t: "Perfeito no celular", d: "A maioria das pessoas navega pelo celular. Por isso começamos o projeto por ele." },
-    { i: ShieldCheck, t: "Passa confiança", d: "Um site bem feito mostra que sua empresa é séria, e o cliente se sente seguro para comprar." },
-    { i: MessageCircle, t: "Contato em um toque", d: "Botões de WhatsApp e ligação nos lugares certos, para o interessado chamar na hora." },
-    { i: Gem, t: "Visual só seu", d: "Design com a cara da sua marca, sem modelo pronto igual ao de todo mundo." },
+    {
+      i: Search,
+      t: "Seus clientes encontram você",
+      d: "Preparamos o site para aparecer quando alguém pesquisa o que você vende, na sua região.",
+    },
+    {
+      i: Rocket,
+      t: "Abre em instantes",
+      d: "Quem espera demais fecha a página. O nosso carrega rápido, e você não perde a visita.",
+    },
+    {
+      i: Smartphone,
+      t: "Perfeito no celular",
+      d: "A maioria das pessoas navega pelo celular. Por isso começamos o projeto por ele.",
+    },
+    {
+      i: ShieldCheck,
+      t: "Passa confiança",
+      d: "Um site bem feito mostra que sua empresa é séria, e o cliente se sente seguro para comprar.",
+    },
+    {
+      i: MessageCircle,
+      t: "Contato em um toque",
+      d: "Botões de WhatsApp e ligação nos lugares certos, para o interessado chamar na hora.",
+    },
+    {
+      i: Gem,
+      t: "Visual só seu",
+      d: "Design com a cara da sua marca, sem modelo pronto igual ao de todo mundo.",
+    },
   ];
   return (
     <Sec id="incluso">
       <Reveal className="mb-14 max-w-4xl">
         <h2 className="dd-h2">Você não paga por “um site”. Paga por clientes novos.</h2>
-        <p className="dd-lead mt-6">É isso que está dentro do valor de cada projeto. Cada item existe por um motivo: fazer o seu site vender.</p>
+        <p className="dd-lead mt-6">
+          É isso que está dentro do valor de cada projeto. Cada item existe por um motivo: fazer o
+          seu site vender.
+        </p>
       </Reveal>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((it, k) => (
           <Reveal key={it.t} d={k * 80}>
             <div className="dd-tile hv">
-              <div className="dd-ico"><it.i size={28} /></div>
+              <div className="dd-ico">
+                <it.i size={28} />
+              </div>
               <h3 className="mt-6 text-2xl font-bold">{it.t}</h3>
               <p className="dd-p mt-3">{it.d}</p>
             </div>
@@ -256,23 +459,43 @@ function Included() {
 }
 
 function Showcase() {
-  const pts = ["Você vê o desenho antes de ele ser construído", "O site é 100% seu, sem ficar preso a ninguém", "Pagamento único pela criação"];
+  const pts = [
+    "Você vê o desenho antes de ele ser construído",
+    "O site é 100% seu, sem ficar preso a ninguém",
+    "Pagamento único pela criação",
+  ];
   return (
     <section id="vitrine" className="dd-dark dd-sec scroll-mt-28">
       <div className="dd-w grid items-center gap-16 md:grid-cols-2">
         <Reveal>
           <h2 className="dd-h2">Seu site, do jeito que o cliente vai ver</h2>
-          <p className="dd-p mt-6 max-w-lg text-xl">Antes de qualquer coisa ir ao ar, você enxerga o resultado. Sem surpresa, sem “depois a gente ajeita”.</p>
-          <ul className="mt-9 space-y-5 text-lg">{pts.map((x) => <li key={x} className="flex items-start gap-4 font-medium"><Tick />{x}</li>)}</ul>
-          <Link to="/contato" className="dd-btn-w mt-12">Quero ver o meu site</Link>
+          <p className="dd-p mt-6 max-w-lg text-xl">
+            Antes de qualquer coisa ir ao ar, você enxerga o resultado. Sem surpresa, sem “depois a
+            gente ajeita”.
+          </p>
+          <ul className="mt-9 space-y-5 text-lg">
+            {pts.map((x) => (
+              <li key={x} className="flex items-start gap-4 font-medium">
+                <Tick />
+                {x}
+              </li>
+            ))}
+          </ul>
+          <Link to="/contato" className="dd-btn-w mt-12">
+            Quero ver o meu site
+          </Link>
         </Reveal>
         <Reveal d={140}>
           <div className="dd-phone dd-float">
             <div className="absolute left-1/2 top-2 h-4 w-24 -translate-x-1/2 rounded-full bg-black/60" />
             <div className="relative flex h-full flex-col justify-end gap-3 p-6 pb-10">
               <p className="text-4xl font-medium leading-none">Sua marca</p>
-              <p className="text-sm leading-relaxed text-white/90">Em 3 segundos o cliente entende o que você faz e como te chamar.</p>
-              <span className="rounded-full bg-[#161d26] px-4 py-3.5 text-center text-sm font-bold text-white">Chamar no WhatsApp</span>
+              <p className="text-sm leading-relaxed text-white/90">
+                Em 3 segundos o cliente entende o que você faz e como te chamar.
+              </p>
+              <span className="rounded-full bg-[#161d26] px-4 py-3.5 text-center text-sm font-bold text-white">
+                Chamar no WhatsApp
+              </span>
             </div>
           </div>
         </Reveal>
@@ -283,23 +506,39 @@ function Showcase() {
 
 function Segments() {
   const a = [
-    ["Clínicas e consultórios", "Pacientes encontram você, conhecem a equipe e marcam consulta pelo WhatsApp."],
+    [
+      "Clínicas e consultórios",
+      "Pacientes encontram você, conhecem a equipe e marcam consulta pelo WhatsApp.",
+    ],
     ["Restaurantes e cafés", "Cardápio bonito, endereço no mapa e pedido a um toque."],
-    ["Lojas e comércio", "Mostre seus produtos 24 horas por dia e receba contato mesmo com a loja fechada."],
+    [
+      "Lojas e comércio",
+      "Mostre seus produtos 24 horas por dia e receba contato mesmo com a loja fechada.",
+    ],
     ["Advogados e contadores", "Passe autoridade e segurança antes mesmo da primeira conversa."],
-    ["Prestadores de serviço", "Eletricistas, designers, fotógrafos: mostre seu trabalho e receba pedidos de orçamento."],
-    ["Indústrias e construtoras", "Apresente sua estrutura e seja lembrado quando o cliente for pedir cotação."],
+    [
+      "Prestadores de serviço",
+      "Eletricistas, designers, fotógrafos: mostre seu trabalho e receba pedidos de orçamento.",
+    ],
+    [
+      "Indústrias e construtoras",
+      "Apresente sua estrutura e seja lembrado quando o cliente for pedir cotação.",
+    ],
   ];
   return (
     <Sec id="segmentos">
-      <Reveal className="mb-14 max-w-4xl"><h2 className="dd-h2">Feito para o seu tipo de negócio</h2></Reveal>
+      <Reveal className="mb-14 max-w-4xl">
+        <h2 className="dd-h2">Feito para o seu tipo de negócio</h2>
+      </Reveal>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {a.map(([t, d], k) => (
           <Reveal key={t} d={k * 80}>
             <Link to="/contato" className="dd-tile hv block">
               <h3 className="text-2xl font-bold">{t}</h3>
               <p className="dd-p mt-3">{d}</p>
-              <span className="mt-6 inline-flex items-center gap-2 font-bold text-[color:var(--blue)]">Quero um site assim <ArrowRight size={18} /></span>
+              <span className="mt-6 inline-flex items-center gap-2 font-bold text-[color:var(--blue)]">
+                Quero um site assim <ArrowRight size={18} />
+              </span>
             </Link>
           </Reveal>
         ))}
@@ -321,12 +560,34 @@ function Calc() {
       <div className="grid items-center gap-14 md:grid-cols-2">
         <Reveal>
           <h2 className="dd-h2">Quanto tempo o site leva para se pagar?</h2>
-          <p className="dd-lead mt-5">Mexa nos controles com a realidade do seu negócio e veja a conta, com o plano Profissional ({brl(price)}).</p>
-          <label className="mt-10 block text-lg font-bold">Quanto você ganha em uma venda? <span className="text-[color:var(--blue)]">{brl(ticket)}</span>
-            <input type="range" min={50} max={5000} step={50} value={ticket} onChange={(e) => setTicket(+e.target.value)} className="dd-range" />
+          <p className="dd-lead mt-5">
+            Mexa nos controles com a realidade do seu negócio e veja a conta, com o plano
+            Profissional ({brl(price)}).
+          </p>
+          <label className="mt-10 block text-lg font-bold">
+            Quanto você ganha em uma venda?{" "}
+            <span className="text-[color:var(--blue)]">{brl(ticket)}</span>
+            <input
+              type="range"
+              min={50}
+              max={5000}
+              step={50}
+              value={ticket}
+              onChange={(e) => setTicket(+e.target.value)}
+              className="dd-range"
+            />
           </label>
-          <label className="mt-8 block text-lg font-bold">Clientes novos que o site pode trazer por mês: <span className="text-[color:var(--blue)]">{cli}</span>
-            <input type="range" min={1} max={30} value={cli} onChange={(e) => setCli(+e.target.value)} className="dd-range" />
+          <label className="mt-8 block text-lg font-bold">
+            Clientes novos que o site pode trazer por mês:{" "}
+            <span className="text-[color:var(--blue)]">{cli}</span>
+            <input
+              type="range"
+              min={1}
+              max={30}
+              value={cli}
+              onChange={(e) => setCli(+e.target.value)}
+              className="dd-range"
+            />
           </label>
         </Reveal>
         <Reveal d={140}>
@@ -335,8 +596,12 @@ function Calc() {
             <p className="mt-3 text-4xl font-medium tracking-tight sm:text-6xl">{when}</p>
             <div className="mx-auto my-8 h-px w-28 bg-[color:var(--line)]" />
             <p className="dd-p">Em 12 meses, sobram cerca de</p>
-            <p className="mt-1 text-5xl font-medium text-[color:var(--blue)]">{year > 0 ? brl(year) : "—"}</p>
-            <p className="mt-8 text-sm text-[color:var(--mut)]">Simulação ilustrativa. O resultado real depende do seu negócio e do seu atendimento.</p>
+            <p className="mt-1 text-5xl font-medium text-[color:var(--blue)]">
+              {year > 0 ? brl(year) : "—"}
+            </p>
+            <p className="mt-8 text-sm text-[color:var(--mut)]">
+              Simulação ilustrativa. O resultado real depende do seu negócio e do seu atendimento.
+            </p>
           </div>
         </Reveal>
       </div>
@@ -349,20 +614,40 @@ function Plans() {
     <Sec id="planos">
       <Reveal className="mb-16 max-w-3xl">
         <h2 className="dd-h2">Escolha o site certo para o seu momento</h2>
-        <p className="dd-lead mt-6">Valores claros, pagamento único pela criação e sem letra miúda. Em cada plano explicamos o motivo do valor.</p>
+        <p className="dd-lead mt-6">
+          Valores claros, pagamento único pela criação e sem letra miúda. Em cada plano explicamos o
+          motivo do valor.
+        </p>
       </Reveal>
       <div className="grid gap-7 md:grid-cols-3">
         {PLANS.map((pl, k) => (
           <Reveal key={pl.n} d={k * 110}>
             <div className={`dd-tile hv flex flex-col ${pl.hot ? "hot" : ""}`}>
-              {pl.hot && <span className="absolute -top-4 left-8 rounded-full bg-[color:var(--ink)] px-5 py-1.5 text-sm font-bold text-[color:var(--bg)]">Mais escolhido</span>}
+              {pl.hot && (
+                <span className="absolute -top-4 left-8 rounded-full bg-[color:var(--ink)] px-5 py-1.5 text-sm font-bold text-[color:var(--bg)]">
+                  Mais escolhido
+                </span>
+              )}
               <h3 className="text-3xl font-bold">{pl.n}</h3>
               <p className="dd-p mt-2">{pl.f}</p>
-              <p className="mt-8 text-[clamp(2.8rem,4.5vw,4rem)] font-medium leading-none tracking-tight">{brl(pl.p)}</p>
+              <p className="mt-8 text-[clamp(2.8rem,4.5vw,4rem)] font-medium leading-none tracking-tight">
+                {brl(pl.p)}
+              </p>
               <p className="mt-2 text-sm text-[color:var(--mut)]">pagamento único pela criação</p>
-              <ul className="mt-8 flex-1 space-y-4">{pl.list.map((x) => <li key={x} className="flex gap-3"><Tick />{x}</li>)}</ul>
-              <p className="mt-8 rounded-2xl bg-[color:var(--tint)] p-5 text-[.92rem] leading-relaxed text-[color:var(--mut)]"><b className="text-[color:var(--ink)]">Por que esse valor?</b> {pl.why}</p>
-              <Link to="/contato" className={`mt-7 w-full ${pl.hot ? "dd-btn" : "dd-btn-o"}`}>Quero o {pl.n}</Link>
+              <ul className="mt-8 flex-1 space-y-4">
+                {pl.list.map((x) => (
+                  <li key={x} className="flex gap-3">
+                    <Tick />
+                    {x}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-8 rounded-2xl bg-[color:var(--tint)] p-5 text-[.92rem] leading-relaxed text-[color:var(--mut)]">
+                <b className="text-[color:var(--ink)]">Por que esse valor?</b> {pl.why}
+              </p>
+              <Link to="/contato" className={`mt-7 w-full ${pl.hot ? "dd-btn" : "dd-btn-o"}`}>
+                Quero o {pl.n}
+              </Link>
             </div>
           </Reveal>
         ))}
@@ -381,13 +666,27 @@ function Compare() {
   ];
   return (
     <Sec id="comparar" className="dd-band">
-      <Reveal><h2 className="dd-h2 max-w-4xl">O barato sai caro quando o site não traz ninguém</h2></Reveal>
+      <Reveal>
+        <h2 className="dd-h2 max-w-4xl">O barato sai caro quando o site não traz ninguém</h2>
+      </Reveal>
       <Reveal d={100} className="mt-12 overflow-x-auto">
         <div className="dd-glass min-w-[640px] overflow-hidden text-base">
-          <div className="grid grid-cols-3 gap-4 p-6 text-lg font-bold"><span /><span className="text-[color:var(--mut)]">Site barato</span><span className="text-[color:var(--blue)]">Diamante Dev</span></div>
+          <div className="grid grid-cols-3 gap-4 p-6 text-lg font-bold">
+            <span />
+            <span className="text-[color:var(--mut)]">Site barato</span>
+            <span className="text-[color:var(--blue)]">Diamante Dev</span>
+          </div>
           {rows.map(([a, b, c]) => (
-            <div key={a} className="grid grid-cols-3 items-center gap-4 border-t border-[color:var(--line)] p-6">
-              <span className="font-bold">{a}</span><span className="text-[color:var(--mut)]">{b}</span><span className="flex gap-3 font-medium"><Tick />{c}</span>
+            <div
+              key={a}
+              className="grid grid-cols-3 items-center gap-4 border-t border-[color:var(--line)] p-6"
+            >
+              <span className="font-bold">{a}</span>
+              <span className="text-[color:var(--mut)]">{b}</span>
+              <span className="flex gap-3 font-medium">
+                <Tick />
+                {c}
+              </span>
             </div>
           ))}
         </div>
@@ -405,12 +704,16 @@ function Steps() {
   ];
   return (
     <Sec id="como">
-      <Reveal className="mb-14"><h2 className="dd-h2">Como funciona, do começo ao fim</h2></Reveal>
+      <Reveal className="mb-14">
+        <h2 className="dd-h2">Como funciona, do começo ao fim</h2>
+      </Reveal>
       <ol className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {s.map(([t, d], k) => (
           <Reveal key={t} d={k * 100}>
             <li className="dd-tile hv list-none">
-              <span className="grid h-14 w-14 place-items-center rounded-full bg-[color:var(--ink)] text-xl font-bold text-[color:var(--bg)]">{k + 1}</span>
+              <span className="grid h-14 w-14 place-items-center rounded-full bg-[color:var(--ink)] text-xl font-bold text-[color:var(--bg)]">
+                {k + 1}
+              </span>
               <h3 className="mt-6 text-2xl font-bold">{t}</h3>
               <p className="dd-p mt-3">{d}</p>
             </li>
@@ -423,19 +726,36 @@ function Steps() {
 
 function Faq() {
   const q = [
-    ["Por que não fazer um site grátis, sozinho?", "Dá para fazer, mas o resultado costuma ser lento, igual ao de todo mundo e difícil de achar no Google. O nosso trabalho é fazer o site vender, e não só existir."],
-    ["Em quanto tempo meu site fica pronto?", "Em média, em cerca de 32 dias, dependendo do plano e de quanto rápido você nos envia fotos e informações."],
-    ["O site vai funcionar no celular?", "Sim. Ele é pensado primeiro para o celular e testado em telas de vários tamanhos."],
-    ["E se eu não gostar do desenho?", "Você vê como o site vai ficar antes de ele ser construído e pede ajustes até ficar certo."],
+    [
+      "Por que não fazer um site grátis, sozinho?",
+      "Dá para fazer, mas o resultado costuma ser lento, igual ao de todo mundo e difícil de achar no Google. O nosso trabalho é fazer o site vender, e não só existir.",
+    ],
+    [
+      "Em quanto tempo meu site fica pronto?",
+      "Em média, em cerca de 32 dias, dependendo do plano e de quanto rápido você nos envia fotos e informações.",
+    ],
+    [
+      "O site vai funcionar no celular?",
+      "Sim. Ele é pensado primeiro para o celular e testado em telas de vários tamanhos.",
+    ],
+    [
+      "E se eu não gostar do desenho?",
+      "Você vê como o site vai ficar antes de ele ser construído e pede ajustes até ficar certo.",
+    ],
   ];
   return (
     <section id="faq" className="scroll-mt-28 pb-28">
       <div className="dd-w max-w-4xl">
-        <Reveal><h2 className="dd-h2 mb-10">Dúvidas comuns</h2></Reveal>
+        <Reveal>
+          <h2 className="dd-h2 mb-10">Dúvidas comuns</h2>
+        </Reveal>
         <div className="divide-y divide-[color:var(--line)] border-y border-[color:var(--line)]">
           {q.map(([a, b]) => (
             <details key={a} className="py-6">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-xl font-bold">{a}<ChevronDown className="dd-chev shrink-0 text-[color:var(--blue)]" size={26} /></summary>
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-xl font-bold">
+                {a}
+                <ChevronDown className="dd-chev shrink-0 text-[color:var(--blue)]" size={26} />
+              </summary>
               <p className="dd-p mt-4 max-w-[64ch]">{b}</p>
             </details>
           ))}
@@ -452,20 +772,46 @@ function QuoteCta() {
       <div className="dd-w relative grid items-center gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,.9fr)]">
         <Reveal className="text-white">
           <h2 className="dd-h2">Seu próximo cliente já está procurando por você</h2>
-          <p className="mt-6 max-w-lg text-xl leading-relaxed text-white/90">Conte sobre o seu negócio e receba uma proposta clara, com o valor e o que está incluso.</p>
+          <p className="mt-6 max-w-lg text-xl leading-relaxed text-white/90">
+            Conte sobre o seu negócio e receba uma proposta clara, com o valor e o que está incluso.
+          </p>
           <ul className="mt-9 space-y-5 text-lg font-medium">
-            <li className="flex items-center gap-3"><ClipboardCheck size={22} /> Orçamento sem compromisso</li>
-            <li className="flex items-center gap-3"><Clock size={22} /> Resposta em até 24 horas úteis</li>
-            <li className="flex items-center gap-3"><ShieldCheck size={22} /> O site é seu, de verdade</li>
+            <li className="flex items-center gap-3">
+              <ClipboardCheck size={22} /> Orçamento sem compromisso
+            </li>
+            <li className="flex items-center gap-3">
+              <Clock size={22} /> Resposta em até 24 horas úteis
+            </li>
+            <li className="flex items-center gap-3">
+              <ShieldCheck size={22} /> O site é seu, de verdade
+            </li>
           </ul>
         </Reveal>
         <Reveal d={140}>
           <div className="dd-card">
             <h3 className="text-3xl font-medium sm:text-4xl">Fale direto com a equipe</h3>
             <p className="dd-p mt-3">Quanto mais você contar, mais certeira será a proposta.</p>
-            <ul className="mt-7 space-y-4">{["Qual é o seu negócio", "O que você quer que o site faça", "Prazo que você precisa"].map((x) => <li key={x} className="flex gap-3 font-medium"><Tick />{x}</li>)}</ul>
-            <Link to="/contato" className="dd-btn mt-9 w-full">Pedir orçamento grátis <ArrowRight size={20} /></Link>
-            <Link to="/sobre" className="mt-5 block text-center font-bold text-[color:var(--blue)] hover:underline">Conhecer a Diamante Dev</Link>
+            <ul className="mt-7 space-y-4">
+              {[
+                "Qual é o seu negócio",
+                "O que você quer que o site faça",
+                "Prazo que você precisa",
+              ].map((x) => (
+                <li key={x} className="flex gap-3 font-medium">
+                  <Tick />
+                  {x}
+                </li>
+              ))}
+            </ul>
+            <Link to="/contato" className="dd-btn mt-9 w-full">
+              Pedir orçamento grátis <ArrowRight size={20} />
+            </Link>
+            <Link
+              to="/sobre"
+              className="mt-5 block text-center font-bold text-[color:var(--blue)] hover:underline"
+            >
+              Conhecer a Diamante Dev
+            </Link>
           </div>
         </Reveal>
       </div>
@@ -477,13 +823,19 @@ function QuoteCta() {
 function Contact() {
   const [o, setO] = useState(false);
   useEffect(() => {
-    const k = (e: KeyboardEvent) => { if (e.key === "Escape") setO(false); };
+    const k = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setO(false);
+    };
     addEventListener("keydown", k);
     return () => removeEventListener("keydown", k);
   }, []);
   return (
     <>
-      <a href="#planos" aria-label="Ver planos" className="fixed right-0 top-[46%] z-50 grid h-12 w-12 place-items-center rounded-l-xl border border-r-0 border-[color:var(--line)] bg-[color:var(--card)] text-[color:var(--ink)] shadow-lg transition-transform hover:-translate-x-1">
+      <a
+        href="#planos"
+        aria-label="Ver planos"
+        className="fixed right-0 top-[46%] z-50 grid h-12 w-12 place-items-center rounded-l-xl border border-r-0 border-[color:var(--line)] bg-[color:var(--card)] text-[color:var(--ink)] shadow-lg transition-transform hover:-translate-x-1"
+      >
         <Star size={22} />
       </a>
       <div className="dd-fab fixed bottom-5 right-5 z-[60]">
@@ -492,12 +844,18 @@ function Contact() {
             <p className="text-xl font-bold">Fale com a Diamante Dev</p>
             <p className="dd-p mt-1 text-sm">Resposta em até 24 horas úteis.</p>
             <div className="mt-4 grid gap-3">
-              <A h={WHATS} className="dd-btn !py-3.5 !text-base">Falar no WhatsApp</A>
-              <A h="/contato" className="dd-btn-o !py-3.5 !text-base" onClick={() => setO(false)}>Pedir orçamento</A>
+              <A h={WHATS} className="dd-btn !py-3.5 !text-base">
+                Falar no WhatsApp
+              </A>
+              <A h="/contato" className="dd-btn-o !py-3.5 !text-base" onClick={() => setO(false)}>
+                Pedir orçamento
+              </A>
             </div>
           </div>
         )}
-        <button type="button" aria-label="Contato" aria-expanded={o} onClick={() => setO(!o)}>{o ? <X size={28} /> : <MessageCircle size={30} />}</button>
+        <button type="button" aria-label="Contato" aria-expanded={o} onClick={() => setO(!o)}>
+          {o ? <X size={28} /> : <MessageCircle size={30} />}
+        </button>
       </div>
     </>
   );

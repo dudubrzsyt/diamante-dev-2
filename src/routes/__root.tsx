@@ -17,8 +17,7 @@ import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { FloatingBubbles } from "../components/FloatingBubbles";
 import { AnalyticsTracker } from "../components/AnalyticsTracker";
-import { Analytics } from "@vercel/analytics/react"
-
+import { Analytics } from "@vercel/analytics/react";
 
 function NotFoundComponent() {
   return (
@@ -30,7 +29,9 @@ function NotFoundComponent() {
           O conteúdo que você procura foi movido ou não existe mais.
         </p>
         <div className="mt-6">
-          <Link to="/" className="btn-hero btn-hero-hover">Voltar ao início</Link>
+          <Link to="/" className="btn-hero btn-hero-hover">
+            Voltar ao início
+          </Link>
         </div>
       </div>
     </div>
@@ -53,12 +54,17 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <button
-            onClick={() => { router.invalidate(); reset(); }}
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
             className="btn-hero btn-hero-hover"
           >
             Tentar novamente
           </button>
-          <a href="/" className="btn-ghost-yellow">Início</a>
+          <a href="/" className="btn-ghost-yellow">
+            Início
+          </a>
         </div>
       </div>
     </div>
@@ -73,8 +79,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: `${SITE_NAME} — Corte, dobra e estruturas metálicas` },
       { name: "description", content: SITE_DESCRIPTION },
       { name: "author", content: SITE_NAME },
-      { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" },
-      { name: "googlebot", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" },
+      {
+        name: "robots",
+        content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      },
+      {
+        name: "googlebot",
+        content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      },
       { property: "og:title", content: `${SITE_NAME} — Corte, dobra e estruturas metálicas` },
       { property: "og:description", content: SITE_DESCRIPTION },
       { property: "og:type", content: "website" },
@@ -128,7 +140,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               },
               areaServed: "Brasil",
               priceRange: "$$",
-              knowsAbout: ["Corte de chapas", "Dobra de chapas", "Perfis especiais", "Canaletas para postos de combustíveis", "Porta-paletes"],
+              knowsAbout: [
+                "Corte de chapas",
+                "Dobra de chapas",
+                "Perfis especiais",
+                "Canaletas para postos de combustíveis",
+                "Porta-paletes",
+              ],
             },
             {
               "@type": "WebSite",
@@ -173,8 +191,7 @@ function RootComponent() {
       <Footer />
       <FloatingBubbles />
       <AnalyticsTracker />
-      <Analytics /> 
+      <Analytics />
     </QueryClientProvider>
-    
   );
 }

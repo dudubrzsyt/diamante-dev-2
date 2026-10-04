@@ -10,7 +10,12 @@ interface Props {
   compact?: boolean;
 }
 
-function buildWhatsAppLink(form: { nome: string; email: string; telefone: string; mensagem: string }) {
+function buildWhatsAppLink(form: {
+  nome: string;
+  email: string;
+  telefone: string;
+  mensagem: string;
+}) {
   const text = [
     `Olá! Meu nome é ${form.nome || "Cliente"}.`,
     `Email: ${form.email || "não informado"}`,
@@ -21,7 +26,11 @@ function buildWhatsAppLink(form: { nome: string; email: string; telefone: string
   return whatsappLink(text);
 }
 
-export function ContactForm({ title = "Fale com a gente", subtitle = "Resposta em até 24h úteis. Telefone: (11) 5522-9775 | WhatsApp: (11) 99217-9989", compact }: Props) {
+export function ContactForm({
+  title = "Fale com a gente",
+  subtitle = "Resposta em até 24h úteis. Telefone: (11) 5522-9775 | WhatsApp: (11) 99217-9989",
+  compact,
+}: Props) {
   const [sent, setSent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedback, setFeedback] = useState("");
@@ -60,7 +69,10 @@ export function ContactForm({ title = "Fale com a gente", subtitle = "Resposta e
       }
 
       setSent(true);
-      recordAnalyticsEvent("lead", "Formulário enviado", { name: payload.nome, email: payload.email });
+      recordAnalyticsEvent("lead", "Formulário enviado", {
+        name: payload.nome,
+        email: payload.email,
+      });
       setFeedbackType("success");
       setFeedback(data.message || "Mensagem enviada com sucesso!");
       setForm({ nome: "", email: "", telefone: "", mensagem: "" });
@@ -76,7 +88,9 @@ export function ContactForm({ title = "Fale com a gente", subtitle = "Resposta e
       }, 4000);
     } catch (error) {
       setFeedbackType("error");
-      setFeedback(error instanceof Error ? error.message : "Erro inesperado ao enviar o formulário.");
+      setFeedback(
+        error instanceof Error ? error.message : "Erro inesperado ao enviar o formulário.",
+      );
 
       if (whatsappUrl) {
         window.open(whatsappUrl, "_blank", "noopener,noreferrer");
@@ -89,7 +103,11 @@ export function ContactForm({ title = "Fale com a gente", subtitle = "Resposta e
   return (
     <div className={`glass rounded-2xl ${compact ? "p-4 sm:p-5" : "p-5 md:p-6"}`}>
       <div className={compact ? "mb-4" : "mb-6"}>
-        <h3 className={`font-black leading-none ${compact ? "text-2xl md:text-3xl" : "text-2xl md:text-3xl"}`}>{title}</h3>
+        <h3
+          className={`font-black leading-none ${compact ? "text-2xl md:text-3xl" : "text-2xl md:text-3xl"}`}
+        >
+          {title}
+        </h3>
         <p className="mt-2 text-sm font-bold text-muted-foreground">{subtitle}</p>
       </div>
 
@@ -132,7 +150,9 @@ export function ContactForm({ title = "Fale com a gente", subtitle = "Resposta e
         />
 
         {feedback ? (
-          <div className={`flex items-center gap-2 rounded-xl border px-3 py-2 text-sm ${feedbackType === "error" ? "border-red-400/40 bg-red-500/10 text-red-200" : "border-emerald-400/40 bg-emerald-500/10 text-emerald-200"}`}>
+          <div
+            className={`flex items-center gap-2 rounded-xl border px-3 py-2 text-sm ${feedbackType === "error" ? "border-red-400/40 bg-red-500/10 text-red-200" : "border-emerald-400/40 bg-emerald-500/10 text-emerald-200"}`}
+          >
             {feedbackType === "error" ? <AlertCircle size={16} /> : <Check size={16} />}
             <span>{feedback}</span>
           </div>
@@ -145,13 +165,21 @@ export function ContactForm({ title = "Fale com a gente", subtitle = "Resposta e
           >
             Ligar (11) 5522-9775
           </a>
-          <button type="submit" disabled={isSubmitting} className="btn-hero btn-hero-hover flex w-full items-center justify-center gap-2 md:w-auto md:self-start">
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="btn-hero btn-hero-hover flex w-full items-center justify-center gap-2 md:w-auto md:self-start"
+          >
             {isSubmitting ? (
               "Enviando..."
             ) : sent ? (
-              <><Check size={18} /> Enviado</>
+              <>
+                <Check size={18} /> Enviado
+              </>
             ) : (
-              <><Send size={18} /> Enviar mensagem</>
+              <>
+                <Send size={18} /> Enviar mensagem
+              </>
             )}
           </button>
 
