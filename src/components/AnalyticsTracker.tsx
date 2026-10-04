@@ -38,7 +38,11 @@ function getVisitorType() {
   return returning ? "Visitante recorrente" : "Novo visitante";
 }
 
-export function recordAnalyticsEvent(type: AnalyticsEvent["type"], action?: string, details?: Pick<AnalyticsEvent, "name" | "email">) {
+export function recordAnalyticsEvent(
+  type: AnalyticsEvent["type"],
+  action?: string,
+  details?: Pick<AnalyticsEvent, "name" | "email">,
+) {
   if (typeof window === "undefined" || localStorage.getItem(CONSENT_KEY) !== "accepted") return;
 
   const events = JSON.parse(localStorage.getItem(EVENTS_KEY) || "[]") as AnalyticsEvent[];
@@ -74,7 +78,10 @@ export function AnalyticsTracker() {
       const target = event.target as HTMLElement;
       const element = target.closest("a,button");
       if (!element) return;
-      const action = element.getAttribute("aria-label") || element.textContent?.trim().slice(0, 80) || "Elemento sem nome";
+      const action =
+        element.getAttribute("aria-label") ||
+        element.textContent?.trim().slice(0, 80) ||
+        "Elemento sem nome";
       recordAnalyticsEvent("interaction", action);
     };
     document.addEventListener("click", onClick, true);
@@ -85,10 +92,31 @@ export function AnalyticsTracker() {
 
   return (
     <aside className="fixed bottom-4 left-4 right-4 z-[60] mx-auto max-w-xl rounded-2xl border border-brand-yellow/40 bg-black p-4 text-white shadow-deep sm:left-auto sm:right-6">
-      <p className="text-sm font-bold leading-relaxed">Usamos dados anônimos de navegação para entender o desempenho do site e melhorar seu atendimento.</p>
+      <p className="text-sm font-bold leading-relaxed">
+        Usamos dados anônimos de navegação para entender o desempenho do site e melhorar seu
+        atendimento.
+      </p>
       <div className="mt-3 flex flex-wrap gap-2">
-        <button type="button" onClick={() => { localStorage.setItem(CONSENT_KEY, "accepted"); setConsent("accepted"); }} className="rounded-lg bg-brand-yellow px-4 py-2 text-xs font-black uppercase tracking-wider text-brand-black">Aceitar</button>
-        <button type="button" onClick={() => { localStorage.setItem(CONSENT_KEY, "denied"); setConsent("denied"); }} className="rounded-lg border border-white/30 px-4 py-2 text-xs font-black uppercase tracking-wider text-white">Agora não</button>
+        <button
+          type="button"
+          onClick={() => {
+            localStorage.setItem(CONSENT_KEY, "accepted");
+            setConsent("accepted");
+          }}
+          className="rounded-lg bg-brand-yellow px-4 py-2 text-xs font-black uppercase tracking-wider text-brand-black"
+        >
+          Aceitar
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            localStorage.setItem(CONSENT_KEY, "denied");
+            setConsent("denied");
+          }}
+          className="rounded-lg border border-white/30 px-4 py-2 text-xs font-black uppercase tracking-wider text-white"
+        >
+          Agora não
+        </button>
       </div>
     </aside>
   );
