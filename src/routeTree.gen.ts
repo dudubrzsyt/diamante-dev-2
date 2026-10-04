@@ -9,27 +9,97 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as VergalhaoCa50RouteImport } from './routes/vergalhao-ca-50'
-import { Route as SolucoesParaConstrutorasRouteImport } from './routes/solucoes-para-construtoras'
-import { Route as SobreRouteImport } from './routes/sobre'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as ServicosRouteImport } from './routes/servicos'
-import { Route as ProdutosRouteImport } from './routes/produtos'
-import { Route as PerfilRouteImport } from './routes/perfil'
-import { Route as OrcamentoDeAcoRouteImport } from './routes/orcamento-de-aco'
-import { Route as EntregaDeAcoRouteImport } from './routes/entrega-de-aco'
-import { Route as CorteEDobraRouteImport } from './routes/corte-e-dobra'
-import { Route as ContatoRouteImport } from './routes/contato'
-import { Route as ConsultoriaTecnicaRouteImport } from './routes/consultoria-tecnica'
-import { Route as ArmadurasProntasRouteImport } from './routes/armaduras-prontas'
-import { Route as AdminRouteImport } from './routes/admin'
-import { Route as ComunidadeRouteImport } from './routes/Comunidade'
-import { Route as AdminUsuariosRouteImport } from './routes/AdminUsuarios'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminUsuariosRouteImport } from './routes/AdminUsuarios'
+import { Route as ComunidadeRouteImport } from './routes/Comunidade'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as ArmadurasProntasRouteImport } from './routes/armaduras-prontas'
+import { Route as ConsultoriaTecnicaRouteImport } from './routes/consultoria-tecnica'
+import { Route as ContatoRouteImport } from './routes/contato'
+import { Route as CorteEDobraRouteImport } from './routes/corte-e-dobra'
+import { Route as EntregaDeAcoRouteImport } from './routes/entrega-de-aco'
+import { Route as OrcamentoDeAcoRouteImport } from './routes/orcamento-de-aco'
+import { Route as PerfilRouteImport } from './routes/perfil'
+import { Route as ProdutosRouteImport } from './routes/produtos'
+import { Route as ServicosRouteImport } from './routes/servicos'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SobreRouteImport } from './routes/sobre'
+import { Route as SolucoesParaConstrutorasRouteImport } from './routes/solucoes-para-construtoras'
+import { Route as VergalhaoCa50RouteImport } from './routes/vergalhao-ca-50'
 
-const VergalhaoCa50Route = VergalhaoCa50RouteImport.update({
-  id: '/vergalhao-ca-50',
-  path: '/vergalhao-ca-50',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminUsuariosRoute = AdminUsuariosRouteImport.update({
+  id: '/AdminUsuarios',
+  path: '/AdminUsuarios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComunidadeRoute = ComunidadeRouteImport.update({
+  id: '/Comunidade',
+  path: '/Comunidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArmadurasProntasRoute = ArmadurasProntasRouteImport.update({
+  id: '/armaduras-prontas',
+  path: '/armaduras-prontas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConsultoriaTecnicaRoute = ConsultoriaTecnicaRouteImport.update({
+  id: '/consultoria-tecnica',
+  path: '/consultoria-tecnica',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContatoRoute = ContatoRouteImport.update({
+  id: '/contato',
+  path: '/contato',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CorteEDobraRoute = CorteEDobraRouteImport.update({
+  id: '/corte-e-dobra',
+  path: '/corte-e-dobra',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EntregaDeAcoRoute = EntregaDeAcoRouteImport.update({
+  id: '/entrega-de-aco',
+  path: '/entrega-de-aco',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrcamentoDeAcoRoute = OrcamentoDeAcoRouteImport.update({
+  id: '/orcamento-de-aco',
+  path: '/orcamento-de-aco',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PerfilRoute = PerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProdutosRoute = ProdutosRouteImport.update({
+  id: '/produtos',
+  path: '/produtos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicosRoute = ServicosRouteImport.update({
+  id: '/servicos',
+  path: '/servicos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SobreRoute = SobreRouteImport.update({
+  id: '/sobre',
+  path: '/sobre',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SolucoesParaConstrutorasRoute =
@@ -38,79 +108,9 @@ const SolucoesParaConstrutorasRoute =
     path: '/solucoes-para-construtoras',
     getParentRoute: () => rootRouteImport,
   } as any)
-const SobreRoute = SobreRouteImport.update({
-  id: '/sobre',
-  path: '/sobre',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicosRoute = ServicosRouteImport.update({
-  id: '/servicos',
-  path: '/servicos',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProdutosRoute = ProdutosRouteImport.update({
-  id: '/produtos',
-  path: '/produtos',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PerfilRoute = PerfilRouteImport.update({
-  id: '/perfil',
-  path: '/perfil',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OrcamentoDeAcoRoute = OrcamentoDeAcoRouteImport.update({
-  id: '/orcamento-de-aco',
-  path: '/orcamento-de-aco',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EntregaDeAcoRoute = EntregaDeAcoRouteImport.update({
-  id: '/entrega-de-aco',
-  path: '/entrega-de-aco',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CorteEDobraRoute = CorteEDobraRouteImport.update({
-  id: '/corte-e-dobra',
-  path: '/corte-e-dobra',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContatoRoute = ContatoRouteImport.update({
-  id: '/contato',
-  path: '/contato',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ConsultoriaTecnicaRoute = ConsultoriaTecnicaRouteImport.update({
-  id: '/consultoria-tecnica',
-  path: '/consultoria-tecnica',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ArmadurasProntasRoute = ArmadurasProntasRouteImport.update({
-  id: '/armaduras-prontas',
-  path: '/armaduras-prontas',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ComunidadeRoute = ComunidadeRouteImport.update({
-  id: '/Comunidade',
-  path: '/Comunidade',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminUsuariosRoute = AdminUsuariosRouteImport.update({
-  id: '/AdminUsuarios',
-  path: '/AdminUsuarios',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const VergalhaoCa50Route = VergalhaoCa50RouteImport.update({
+  id: '/vergalhao-ca-50',
+  path: '/vergalhao-ca-50',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -254,109 +254,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/vergalhao-ca-50': {
-      id: '/vergalhao-ca-50'
-      path: '/vergalhao-ca-50'
-      fullPath: '/vergalhao-ca-50'
-      preLoaderRoute: typeof VergalhaoCa50RouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/solucoes-para-construtoras': {
-      id: '/solucoes-para-construtoras'
-      path: '/solucoes-para-construtoras'
-      fullPath: '/solucoes-para-construtoras'
-      preLoaderRoute: typeof SolucoesParaConstrutorasRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sobre': {
-      id: '/sobre'
-      path: '/sobre'
-      fullPath: '/sobre'
-      preLoaderRoute: typeof SobreRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/servicos': {
-      id: '/servicos'
-      path: '/servicos'
-      fullPath: '/servicos'
-      preLoaderRoute: typeof ServicosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/produtos': {
-      id: '/produtos'
-      path: '/produtos'
-      fullPath: '/produtos'
-      preLoaderRoute: typeof ProdutosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/perfil': {
-      id: '/perfil'
-      path: '/perfil'
-      fullPath: '/perfil'
-      preLoaderRoute: typeof PerfilRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/orcamento-de-aco': {
-      id: '/orcamento-de-aco'
-      path: '/orcamento-de-aco'
-      fullPath: '/orcamento-de-aco'
-      preLoaderRoute: typeof OrcamentoDeAcoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/entrega-de-aco': {
-      id: '/entrega-de-aco'
-      path: '/entrega-de-aco'
-      fullPath: '/entrega-de-aco'
-      preLoaderRoute: typeof EntregaDeAcoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/corte-e-dobra': {
-      id: '/corte-e-dobra'
-      path: '/corte-e-dobra'
-      fullPath: '/corte-e-dobra'
-      preLoaderRoute: typeof CorteEDobraRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contato': {
-      id: '/contato'
-      path: '/contato'
-      fullPath: '/contato'
-      preLoaderRoute: typeof ContatoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/consultoria-tecnica': {
-      id: '/consultoria-tecnica'
-      path: '/consultoria-tecnica'
-      fullPath: '/consultoria-tecnica'
-      preLoaderRoute: typeof ConsultoriaTecnicaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/armaduras-prontas': {
-      id: '/armaduras-prontas'
-      path: '/armaduras-prontas'
-      fullPath: '/armaduras-prontas'
-      preLoaderRoute: typeof ArmadurasProntasRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/Comunidade': {
-      id: '/Comunidade'
-      path: '/Comunidade'
-      fullPath: '/Comunidade'
-      preLoaderRoute: typeof ComunidadeRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/AdminUsuarios': {
@@ -366,11 +268,109 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsuariosRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/Comunidade': {
+      id: '/Comunidade'
+      path: '/Comunidade'
+      fullPath: '/Comunidade'
+      preLoaderRoute: typeof ComunidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/armaduras-prontas': {
+      id: '/armaduras-prontas'
+      path: '/armaduras-prontas'
+      fullPath: '/armaduras-prontas'
+      preLoaderRoute: typeof ArmadurasProntasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/consultoria-tecnica': {
+      id: '/consultoria-tecnica'
+      path: '/consultoria-tecnica'
+      fullPath: '/consultoria-tecnica'
+      preLoaderRoute: typeof ConsultoriaTecnicaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contato': {
+      id: '/contato'
+      path: '/contato'
+      fullPath: '/contato'
+      preLoaderRoute: typeof ContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/corte-e-dobra': {
+      id: '/corte-e-dobra'
+      path: '/corte-e-dobra'
+      fullPath: '/corte-e-dobra'
+      preLoaderRoute: typeof CorteEDobraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/entrega-de-aco': {
+      id: '/entrega-de-aco'
+      path: '/entrega-de-aco'
+      fullPath: '/entrega-de-aco'
+      preLoaderRoute: typeof EntregaDeAcoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/orcamento-de-aco': {
+      id: '/orcamento-de-aco'
+      path: '/orcamento-de-aco'
+      fullPath: '/orcamento-de-aco'
+      preLoaderRoute: typeof OrcamentoDeAcoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/perfil': {
+      id: '/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof PerfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/produtos': {
+      id: '/produtos'
+      path: '/produtos'
+      fullPath: '/produtos'
+      preLoaderRoute: typeof ProdutosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/servicos': {
+      id: '/servicos'
+      path: '/servicos'
+      fullPath: '/servicos'
+      preLoaderRoute: typeof ServicosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sobre': {
+      id: '/sobre'
+      path: '/sobre'
+      fullPath: '/sobre'
+      preLoaderRoute: typeof SobreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solucoes-para-construtoras': {
+      id: '/solucoes-para-construtoras'
+      path: '/solucoes-para-construtoras'
+      fullPath: '/solucoes-para-construtoras'
+      preLoaderRoute: typeof SolucoesParaConstrutorasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vergalhao-ca-50': {
+      id: '/vergalhao-ca-50'
+      path: '/vergalhao-ca-50'
+      fullPath: '/vergalhao-ca-50'
+      preLoaderRoute: typeof VergalhaoCa50RouteImport
       parentRoute: typeof rootRouteImport
     }
   }

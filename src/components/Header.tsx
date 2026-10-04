@@ -28,22 +28,101 @@ export const ROUTES: string[] = [...NAV.map((i) => i.to), "/perfil"]; // rotas q
    Salva em localStorage("lang"), atualiza <html lang> e avisa o site pelo evento "dd:lang".
    Em qualquer página: import { useLang } from "@/components/Header"; const [lang] = useLang(); */
 export type L = "pt" | "en" | "es";
-export const LANGS: [L, string][] = [["pt", "Português"], ["en", "English"], ["es", "Español"]];
+export const LANGS: [L, string][] = [
+  ["pt", "Português"],
+  ["en", "English"],
+  ["es", "Español"],
+];
 const T = {
-  pt: { contact: "Entre em contato conosco", port: "Portfólio", support: "Suporte", account: "Minha conta", home: "Início", discover: "Descubra", products: "Planos", solutions: "Soluções", pricing: "Preços", resources: "Recursos", search: "Pesquisar", ph: "Pesquisar páginas e seções", login: "Fazer login", signup: "Criar conta", wa: "Falar no WhatsApp", quote: "Pedir orçamento", none: "Nada encontrado. Fale com a equipe.", menu: "Menu", more: "Mais", all: "Todas as páginas", profile: "Meu perfil" },
-  en: { contact: "Contact us", port: "Portfolio", support: "Support", account: "My account", home: "Home", discover: "Discover", products: "Plans", solutions: "Solutions", pricing: "Pricing", resources: "Resources", search: "Search", ph: "Search pages and sections", login: "Sign in", signup: "Create account", wa: "Chat on WhatsApp", quote: "Get a quote", none: "Nothing found. Talk to our team.", menu: "Menu", more: "More", all: "All pages", profile: "My profile" },
-  es: { contact: "Contáctenos", port: "Portafolio", support: "Soporte", account: "Mi cuenta", home: "Inicio", discover: "Descubre", products: "Planes", solutions: "Soluciones", pricing: "Precios", resources: "Recursos", search: "Buscar", ph: "Buscar páginas y secciones", login: "Iniciar sesión", signup: "Crear cuenta", wa: "Hablar por WhatsApp", quote: "Pedir presupuesto", none: "Nada encontrado. Habla con el equipo.", menu: "Menú", more: "Más", all: "Todas las páginas", profile: "Mi perfil" },
+  pt: {
+    contact: "Entre em contato conosco",
+    port: "Portfólio",
+    support: "Suporte",
+    account: "Minha conta",
+    home: "Início",
+    discover: "Descubra",
+    products: "Planos",
+    solutions: "Soluções",
+    pricing: "Preços",
+    resources: "Recursos",
+    search: "Pesquisar",
+    ph: "Pesquisar páginas e seções",
+    login: "Fazer login",
+    signup: "Criar conta",
+    wa: "Falar no WhatsApp",
+    quote: "Pedir orçamento",
+    none: "Nada encontrado. Fale com a equipe.",
+    menu: "Menu",
+    more: "Mais",
+    all: "Todas as páginas",
+    profile: "Meu perfil",
+  },
+  en: {
+    contact: "Contact us",
+    port: "Portfolio",
+    support: "Support",
+    account: "My account",
+    home: "Home",
+    discover: "Discover",
+    products: "Plans",
+    solutions: "Solutions",
+    pricing: "Pricing",
+    resources: "Resources",
+    search: "Search",
+    ph: "Search pages and sections",
+    login: "Sign in",
+    signup: "Create account",
+    wa: "Chat on WhatsApp",
+    quote: "Get a quote",
+    none: "Nothing found. Talk to our team.",
+    menu: "Menu",
+    more: "More",
+    all: "All pages",
+    profile: "My profile",
+  },
+  es: {
+    contact: "Contáctenos",
+    port: "Portafolio",
+    support: "Soporte",
+    account: "Mi cuenta",
+    home: "Inicio",
+    discover: "Descubre",
+    products: "Planes",
+    solutions: "Soluciones",
+    pricing: "Precios",
+    resources: "Recursos",
+    search: "Buscar",
+    ph: "Buscar páginas y secciones",
+    login: "Iniciar sesión",
+    signup: "Crear cuenta",
+    wa: "Hablar por WhatsApp",
+    quote: "Pedir presupuesto",
+    none: "Nada encontrado. Habla con el equipo.",
+    menu: "Menú",
+    more: "Más",
+    all: "Todas las páginas",
+    profile: "Mi perfil",
+  },
 };
 export function useLang(): [L, (l: L) => void] {
   const [l, setL] = useState<L>("pt");
   useEffect(() => {
-    try { const s = localStorage.getItem("lang") as L | null; if (s && s in T) setL(s); } catch { /* sem storage */ }
+    try {
+      const s = localStorage.getItem("lang") as L | null;
+      if (s && s in T) setL(s);
+    } catch {
+      /* sem storage */
+    }
     const h = (e: Event) => setL((e as CustomEvent<L>).detail);
     window.addEventListener("dd:lang", h);
     return () => window.removeEventListener("dd:lang", h);
   }, []);
   const set = (n: L) => {
-    try { localStorage.setItem("lang", n); } catch { /* sem storage */ }
+    try {
+      localStorage.setItem("lang", n);
+    } catch {
+      /* sem storage */
+    }
     document.documentElement.lang = n === "pt" ? "pt-BR" : n;
     window.dispatchEvent(new CustomEvent("dd:lang", { detail: n }));
     setL(n);
@@ -54,14 +133,56 @@ export function useLang(): [L, (l: L) => void] {
 /* ===== MENUS: [título, destino, descrição]. "/#id" leva à seção da home, de qualquer página ===== */
 type Sub = [string, string, string];
 const MENU: { k: "discover" | "products" | "solutions" | "pricing" | "resources"; sub: Sub[] }[] = [
-  { k: "discover", sub: [["Por que a Diamante Dev", "/#incluso", "Sites feitos para trazer cliente"], ["Seu site no celular", "/#vitrine", "Veja o resultado antes de ir ao ar"], ["Como funciona", "/#como", "Do primeiro contato ao site no ar"], ["Sobre a equipe", "/sobre", "Quem está por trás da Diamante"]] },
-  { k: "products", sub: [["Essencial", "/#planos", "Para ser encontrado"], ["Profissional", "/#planos", "Para vender todo mês"], ["Premium", "/#planos", "Para marcas que querem ser lembradas"], ["Todos os produtos", "/produtos", "Veja tudo o que oferecemos"]] },
-  { k: "solutions", sub: [["Serviços", "/servicos", "O que fazemos pelo seu negócio"], ["Segmentos atendidos", "/#segmentos", "Clínicas, lojas, restaurantes e mais"], ["Site barato x Diamante", "/#comparar", "Veja a diferença lado a lado"]] },
-  { k: "pricing", sub: [["Planos e valores", "/#planos", "Pagamento único, sem letra miúda"], ["Calculadora de retorno", "/#calculadora", "Em quanto tempo o site se paga"], ["Pedir orçamento grátis", "/contato", "Proposta clara, sem compromisso"]] },
-  { k: "resources", sub: [["Comunidade", "/comunidade", "Conteúdo e novidades"], ["Perguntas frequentes", "/#faq", "Tire suas dúvidas"], ["Falar no WhatsApp", WHATS, "Resposta em até 24 horas úteis"], ["Meu perfil", "/perfil", "Sua conta e seus dados"]] },
+  {
+    k: "discover",
+    sub: [
+      ["Por que a Diamante Dev", "/#incluso", "Sites feitos para trazer cliente"],
+      ["Seu site no celular", "/#vitrine", "Veja o resultado antes de ir ao ar"],
+      ["Como funciona", "/#como", "Do primeiro contato ao site no ar"],
+      ["Sobre a equipe", "/sobre", "Quem está por trás da Diamante"],
+    ],
+  },
+  {
+    k: "products",
+    sub: [
+      ["Essencial", "/#planos", "Para ser encontrado"],
+      ["Profissional", "/#planos", "Para vender todo mês"],
+      ["Premium", "/#planos", "Para marcas que querem ser lembradas"],
+      ["Todos os produtos", "/produtos", "Veja tudo o que oferecemos"],
+    ],
+  },
+  {
+    k: "solutions",
+    sub: [
+      ["Serviços", "/servicos", "O que fazemos pelo seu negócio"],
+      ["Segmentos atendidos", "/#segmentos", "Clínicas, lojas, restaurantes e mais"],
+      ["Site barato x Diamante", "/#comparar", "Veja a diferença lado a lado"],
+    ],
+  },
+  {
+    k: "pricing",
+    sub: [
+      ["Planos e valores", "/#planos", "Pagamento único, sem letra miúda"],
+      ["Calculadora de retorno", "/#calculadora", "Em quanto tempo o site se paga"],
+      ["Pedir orçamento grátis", "/contato", "Proposta clara, sem compromisso"],
+    ],
+  },
+  {
+    k: "resources",
+    sub: [
+      ["Comunidade", "/comunidade", "Conteúdo e novidades"],
+      ["Perguntas frequentes", "/#faq", "Tire suas dúvidas"],
+      ["Falar no WhatsApp", WHATS, "Resposta em até 24 horas úteis"],
+      ["Meu perfil", "/perfil", "Sua conta e seus dados"],
+    ],
+  },
 ];
 
-const plain = (s: string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+const plain = (s: string) =>
+  s
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
 
 const CSS = `
 @property --a{syntax:"<angle>";inherits:false;initial-value:0deg}
@@ -119,29 +240,98 @@ const CSS = `
 `;
 
 /* ---------- utilitários ---------- */
-function A({ h, children, className, onClick }: { h: string; children: ReactNode; className?: string; onClick?: () => void }) {
-  if (h.startsWith("/#")) return <Link to="/" hash={h.slice(2)} className={className} onClick={onClick}>{children}</Link>;
-  if (ROUTES.includes(h)) return <Link to={h as "/"} className={className} onClick={onClick}>{children}</Link>;
+function A({
+  h,
+  children,
+  className,
+  onClick,
+}: {
+  h: string;
+  children: ReactNode;
+  className?: string;
+  onClick?: () => void;
+}) {
+  if (h.startsWith("/#"))
+    return (
+      <Link to="/" hash={h.slice(2)} className={className} onClick={onClick}>
+        {children}
+      </Link>
+    );
+  if (ROUTES.includes(h))
+    return (
+      <Link to={h as "/"} className={className} onClick={onClick}>
+        {children}
+      </Link>
+    );
   const ext = h.startsWith("http");
-  return <a href={h} className={className} onClick={onClick} {...(ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}>{children}</a>;
+  return (
+    <a
+      href={h}
+      className={className}
+      onClick={onClick}
+      {...(ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    >
+      {children}
+    </a>
+  );
 }
 
-function Drop({ label, children, align = "left", btn, wrap = "", pop = "" }: { label: ReactNode; children: ReactNode; align?: "left" | "right"; btn: string; wrap?: string; pop?: string }) {
+function Drop({
+  label,
+  children,
+  align = "left",
+  btn,
+  wrap = "",
+  pop = "",
+}: {
+  label: ReactNode;
+  children: ReactNode;
+  align?: "left" | "right";
+  btn: string;
+  wrap?: string;
+  pop?: string;
+}) {
   const [o, setO] = useState(false);
   const r = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const f = (e: MouseEvent) => { if (r.current && !r.current.contains(e.target as Node)) setO(false); };
-    const k = (e: KeyboardEvent) => { if (e.key === "Escape") setO(false); };
+    const f = (e: MouseEvent) => {
+      if (r.current && !r.current.contains(e.target as Node)) setO(false);
+    };
+    const k = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setO(false);
+    };
     document.addEventListener("mousedown", f);
     window.addEventListener("keydown", k);
-    return () => { document.removeEventListener("mousedown", f); window.removeEventListener("keydown", k); };
+    return () => {
+      document.removeEventListener("mousedown", f);
+      window.removeEventListener("keydown", k);
+    };
   }, []);
   return (
-    <div ref={r} className={`relative ${wrap}`} onMouseEnter={() => setO(true)} onMouseLeave={() => setO(false)}>
-      <button type="button" className={btn} aria-expanded={o} aria-haspopup="true" onClick={() => setO(true)}>
-        {label}<ChevronDown size={15} className={`dh-chev ${o ? "rot" : ""}`} />
+    <div
+      ref={r}
+      className={`relative ${wrap}`}
+      onMouseEnter={() => setO(true)}
+      onMouseLeave={() => setO(false)}
+    >
+      <button
+        type="button"
+        className={btn}
+        aria-expanded={o}
+        aria-haspopup="true"
+        onClick={() => setO(true)}
+      >
+        {label}
+        <ChevronDown size={15} className={`dh-chev ${o ? "rot" : ""}`} />
       </button>
-      {o && <div className={`dh-pop ${align === "right" ? "r" : ""} ${pop}`} onClick={() => setO(false)}>{children}</div>}
+      {o && (
+        <div
+          className={`dh-pop ${align === "right" ? "r" : ""} ${pop}`}
+          onClick={() => setO(false)}
+        >
+          {children}
+        </div>
+      )}
     </div>
   );
 }
@@ -161,14 +351,20 @@ export function Header() {
 
   const all = useMemo(() => {
     const seen = new Set<string>();
-    return [...MENU.flatMap((m) => m.sub), ...NAV.map((i): Sub => [i.label, i.to, ""])].filter(([n]) => !seen.has(n) && !!seen.add(n));
+    return [...MENU.flatMap((m) => m.sub), ...NAV.map((i): Sub => [i.label, i.to, ""])].filter(
+      ([n]) => !seen.has(n) && !!seen.add(n),
+    );
   }, []);
   const results = useMemo(() => {
     const n = plain(q.trim());
     return n ? all.filter(([a, , d]) => plain(a + " " + d).includes(n)) : all;
   }, [q, all]);
 
-  const closeAll = () => { setOpen(false); setFind(false); setQ(""); };
+  const closeAll = () => {
+    setOpen(false);
+    setFind(false);
+    setQ("");
+  };
   const go = (h: string) => {
     if (h.startsWith("http")) window.open(h, "_blank", "noopener");
     else if (h.startsWith("/#")) navigate({ to: "/", hash: h.slice(2) });
@@ -177,13 +373,16 @@ export function Header() {
   };
 
   /* fecha tudo ao trocar de página */
-  useEffect(() => { closeAll(); }, [pathname]);
+  useEffect(() => {
+    closeAll();
+  }, [pathname]);
 
   /* publica a altura real (barra escura + menu) em --header-h: use nas páginas como padding-top */
   useEffect(() => {
     const el = barRef.current;
     if (!el) return;
-    const publish = () => document.documentElement.style.setProperty("--header-h", `${el.offsetHeight}px`);
+    const publish = () =>
+      document.documentElement.style.setProperty("--header-h", `${el.offsetHeight}px`);
     publish();
     const ro = new ResizeObserver(publish);
     ro.observe(el);
@@ -195,7 +394,9 @@ export function Header() {
     try {
       const p = localStorage.getItem("nova-bill-profile");
       if (p) setPhoto((JSON.parse(p) as { photo?: string }).photo || "");
-    } catch { /* perfil inválido: segue sem foto */ }
+    } catch {
+      /* perfil inválido: segue sem foto */
+    }
     const on = (e: Event) => setPhoto((e as CustomEvent<{ photo?: string }>).detail?.photo || "");
     window.addEventListener("nova-bill-profile-updated", on);
     return () => window.removeEventListener("nova-bill-profile-updated", on);
@@ -206,7 +407,9 @@ export function Header() {
     if (!open) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = prev; };
+    return () => {
+      document.body.style.overflow = prev;
+    };
   }, [open]);
 
   useEffect(() => {
@@ -219,7 +422,11 @@ export function Header() {
   useEffect(() => {
     const k = (e: KeyboardEvent) => {
       if (e.key === "Escape") closeAll();
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") { e.preventDefault(); setOpen(false); setFind((v) => !v); }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setOpen(false);
+        setFind((v) => !v);
+      }
     };
     window.addEventListener("keydown", k);
     return () => window.removeEventListener("keydown", k);
@@ -234,83 +441,220 @@ export function Header() {
         {/* barra escura (sempre visível) */}
         <div className="dh-top">
           <div className="dh-w flex items-center justify-end gap-1 md:gap-4">
-            <Drop align="right" btn="dh-tb" label={<><Globe size={17} />{langName}</>}>
+            <Drop
+              align="right"
+              btn="dh-tb"
+              label={
+                <>
+                  <Globe size={17} />
+                  {langName}
+                </>
+              }
+            >
               {LANGS.map(([k, n]) => (
-                <button key={k} type="button" className="dh-it" onClick={() => setLang(k)}>{n}{k === lang && <Check size={17} className="text-[color:var(--blue)]" />}</button>
+                <button key={k} type="button" className="dh-it" onClick={() => setLang(k)}>
+                  {n}
+                  {k === lang && <Check size={17} className="text-[color:var(--blue)]" />}
+                </button>
               ))}
             </Drop>
-            <A h="/contato" className="dh-tb hidden md:inline-flex">{t.contact}</A>
-            <A h="/#vitrine" className="dh-tb hidden lg:inline-flex">{t.port}</A>
+            <A h="/contato" className="dh-tb hidden md:inline-flex">
+              {t.contact}
+            </A>
+            <A h="/#vitrine" className="dh-tb hidden lg:inline-flex">
+              {t.port}
+            </A>
             <Drop align="right" wrap="hidden md:block" btn="dh-tb" label={t.support}>
-              <A h={WHATS} className="dh-it">{t.wa}</A>
-              <A h="/contato" className="dh-it">{t.quote}</A>
-              <A h="/#faq" className="dh-it">FAQ</A>
+              <A h={WHATS} className="dh-it">
+                {t.wa}
+              </A>
+              <A h="/contato" className="dh-it">
+                {t.quote}
+              </A>
+              <A h="/#faq" className="dh-it">
+                FAQ
+              </A>
             </Drop>
             <Drop align="right" wrap="hidden md:block" btn="dh-tb" label={t.account}>
-              <A h={LOGIN} className="dh-it">{t.login}</A>
-              <A h={SIGNUP} className="dh-it">{t.signup}</A>
-              <A h="/perfil" className="dh-it">{t.profile}</A>
+              <A h={LOGIN} className="dh-it">
+                {t.login}
+              </A>
+              <A h={SIGNUP} className="dh-it">
+                {t.signup}
+              </A>
+              <A h="/perfil" className="dh-it">
+                {t.profile}
+              </A>
             </Drop>
-            <Link to="/perfil" aria-label={t.profile} title={t.profile} className="mr-0.5 grid h-8 w-8 shrink-0 place-items-center overflow-hidden rounded-full border-2 border-white text-white transition-transform hover:scale-110">
-              {photo ? <img src={photo} alt="" className="h-full w-full object-cover" /> : <UserRound size={17} />}
+            <Link
+              to="/perfil"
+              aria-label={t.profile}
+              title={t.profile}
+              className="mr-0.5 grid h-8 w-8 shrink-0 place-items-center overflow-hidden rounded-full border-2 border-white text-white transition-transform hover:scale-110"
+            >
+              {photo ? (
+                <img src={photo} alt="" className="h-full w-full object-cover" />
+              ) : (
+                <UserRound size={17} />
+              )}
             </Link>
           </div>
         </div>
 
         {/* navegação principal */}
         <nav aria-label="Principal" className={`dh-nav ${scrolled ? "sc" : ""}`}>
-          <div className={`dh-w relative flex items-center gap-3 transition-[height] duration-300 ${scrolled ? "h-[66px] xl:h-[78px]" : "h-[76px] xl:h-[94px]"}`}>
-            <Link to="/" onClick={closeAll} aria-label="Diamante Dev — início" className="mr-1 flex shrink-0 items-center gap-3 xl:mr-4">
-              
+          <div
+            className={`dh-w relative flex items-center gap-3 transition-[height] duration-300 ${scrolled ? "h-[66px] xl:h-[78px]" : "h-[76px] xl:h-[94px]"}`}
+          >
+            <Link
+              to="/"
+              onClick={closeAll}
+              aria-label="Diamante Dev — início"
+              className="mr-1 flex shrink-0 items-center gap-3 xl:mr-4"
+            >
               <span className="dh-word">
                 Diamante<b> Dev</b>
                 <svg viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden>
-                  <defs><linearGradient id="dhlg"><stop offset="0" stopColor="#3f73e0" /><stop offset=".5" stopColor="#a855f7" /><stop offset="1" stopColor="#f472b6" /></linearGradient></defs>
-                  <path d="M2 2 Q50 13 98 2" fill="none" stroke="url(#dhlg)" strokeWidth="3.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+                  <defs>
+                    <linearGradient id="dhlg">
+                      <stop offset="0" stopColor="#3f73e0" />
+                      <stop offset=".5" stopColor="#a855f7" />
+                      <stop offset="1" stopColor="#f472b6" />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    d="M2 2 Q50 13 98 2"
+                    fill="none"
+                    stroke="url(#dhlg)"
+                    strokeWidth="3.5"
+                    strokeLinecap="round"
+                    vectorEffect="non-scaling-stroke"
+                  />
                 </svg>
               </span>
             </Link>
 
             <div className="hidden items-center xl:flex">
-              <Link to="/" activeOptions={{ exact: true }} activeProps={{ className: "on" }} className="dh-nl">{t.home}</Link>
+              <Link
+                to="/"
+                activeOptions={{ exact: true }}
+                activeProps={{ className: "on" }}
+                className="dh-nl"
+              >
+                {t.home}
+              </Link>
               <span aria-hidden className="mx-2 h-9 w-px bg-[color:var(--line)]" />
               {MENU.map((it) => (
                 <Drop key={it.k} btn="dh-nl" label={t[it.k]}>
-                  {it.sub.map(([n, h, d]) => <A key={n} h={h} className="dh-it"><span>{n}<small>{d}</small></span></A>)}
+                  {it.sub.map(([n, h, d]) => (
+                    <A key={n} h={h} className="dh-it">
+                      <span>
+                        {n}
+                        <small>{d}</small>
+                      </span>
+                    </A>
+                  ))}
                 </Drop>
               ))}
               <Drop btn="dh-nl" align="right" pop="dh-wide" label={t.more}>
                 <p className="dh-cap">{t.all}</p>
                 {NAV.map((i) => (
-                  <Link key={i.to} to={i.to} activeOptions={{ exact: i.to === "/" }} activeProps={{ className: "on" }} className="dh-it">{i.label}</Link>
+                  <Link
+                    key={i.to}
+                    to={i.to}
+                    activeOptions={{ exact: i.to === "/" }}
+                    activeProps={{ className: "on" }}
+                    className="dh-it"
+                  >
+                    {i.label}
+                  </Link>
                 ))}
               </Drop>
             </div>
 
             <div className="ml-auto flex items-center gap-2 xl:gap-3">
-              <button type="button" aria-label={t.search} aria-expanded={find} title={`${t.search} (Ctrl+K)`} onClick={() => { setOpen(false); setFind((v) => !v); }} className="dh-nl !px-3">
-                <Search size={20} /><span className="hidden 2xl:inline">{t.search}</span>
+              <button
+                type="button"
+                aria-label={t.search}
+                aria-expanded={find}
+                title={`${t.search} (Ctrl+K)`}
+                onClick={() => {
+                  setOpen(false);
+                  setFind((v) => !v);
+                }}
+                className="dh-nl !px-3"
+              >
+                <Search size={20} />
+                <span className="hidden 2xl:inline">{t.search}</span>
               </button>
-              <A h={LOGIN} className="dh-nl hidden 2xl:inline-flex">{t.login}</A>
-              <A h={SIGNUP} className="dh-btn max-sm:hidden">{t.signup}</A>
-              <button type="button" aria-label={t.menu} aria-expanded={open} aria-controls="dh-mobile" onClick={() => { setFind(false); setOpen((v) => !v); }} className="grid h-11 w-11 place-items-center rounded-full border border-[color:var(--line)] transition-transform active:scale-95 xl:hidden">
+              <A h={LOGIN} className="dh-nl hidden 2xl:inline-flex">
+                {t.login}
+              </A>
+              <A h={SIGNUP} className="dh-btn max-sm:hidden">
+                {t.signup}
+              </A>
+              <button
+                type="button"
+                aria-label={t.menu}
+                aria-expanded={open}
+                aria-controls="dh-mobile"
+                onClick={() => {
+                  setFind(false);
+                  setOpen((v) => !v);
+                }}
+                className="grid h-11 w-11 place-items-center rounded-full border border-[color:var(--line)] transition-transform active:scale-95 xl:hidden"
+              >
                 {open ? <X size={22} /> : <Menu size={22} />}
               </button>
             </div>
 
             {find && (
               <>
-                <button type="button" aria-label="Fechar pesquisa" tabIndex={-1} onClick={closeAll} className="fixed inset-0 -z-10 cursor-default bg-black/30 backdrop-blur-[2px]" />
+                <button
+                  type="button"
+                  aria-label="Fechar pesquisa"
+                  tabIndex={-1}
+                  onClick={closeAll}
+                  className="fixed inset-0 -z-10 cursor-default bg-black/30 backdrop-blur-[2px]"
+                />
                 <div className="dh-slam absolute inset-x-[clamp(8px,3vw,40px)] top-full z-10 mt-2 rounded-2xl border border-[color:var(--line)] bg-[color:var(--card)] p-4 shadow-2xl">
-                  <form onSubmit={(e) => { e.preventDefault(); if (results[0]) { go(results[0][1]); closeAll(); } }} className="flex items-center gap-3 rounded-xl border border-[color:var(--line)] px-4 py-3 transition-colors focus-within:border-[color:var(--blue)]">
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      if (results[0]) {
+                        go(results[0][1]);
+                        closeAll();
+                      }
+                    }}
+                    className="flex items-center gap-3 rounded-xl border border-[color:var(--line)] px-4 py-3 transition-colors focus-within:border-[color:var(--blue)]"
+                  >
                     <Search size={19} className="shrink-0 text-[color:var(--blue)]" />
-                    <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder={t.ph} className="w-full min-w-0 bg-transparent font-medium outline-none placeholder:text-[color:var(--mut)]" />
-                    <kbd className="hidden rounded border border-[color:var(--line)] px-1.5 py-0.5 text-[11px] text-[color:var(--mut)] sm:block">Esc</kbd>
+                    <input
+                      autoFocus
+                      value={q}
+                      onChange={(e) => setQ(e.target.value)}
+                      placeholder={t.ph}
+                      className="w-full min-w-0 bg-transparent font-medium outline-none placeholder:text-[color:var(--mut)]"
+                    />
+                    <kbd className="hidden rounded border border-[color:var(--line)] px-1.5 py-0.5 text-[11px] text-[color:var(--mut)] sm:block">
+                      Esc
+                    </kbd>
                   </form>
                   <div className="mt-3 grid max-h-[52svh] gap-1 overflow-y-auto sm:grid-cols-2 xl:grid-cols-3">
-                    {results.map(([n, h, d]) => <A key={n} h={h} className="dh-it" onClick={closeAll}><span>{n}<small>{d}</small></span></A>)}
+                    {results.map(([n, h, d]) => (
+                      <A key={n} h={h} className="dh-it" onClick={closeAll}>
+                        <span>
+                          {n}
+                          <small>{d}</small>
+                        </span>
+                      </A>
+                    ))}
                   </div>
-                  {!results.length && <A h="/contato" className="dh-it" onClick={closeAll}>{t.none}</A>}
+                  {!results.length && (
+                    <A h="/contato" className="dh-it" onClick={closeAll}>
+                      {t.none}
+                    </A>
+                  )}
                 </div>
               </>
             )}
@@ -321,23 +665,57 @@ export function Header() {
       {/* menu mobile/tablet (fora do barRef: não mexe no --header-h) */}
       {open && (
         <div className="xl:hidden">
-          <button type="button" aria-label="Fechar menu" tabIndex={-1} onClick={closeAll} className="fixed inset-0 -z-10 cursor-default bg-black/45" />
-          <div id="dh-mobile" className="dh-slam mx-2 mb-4 mt-2 max-h-[calc(100svh-var(--header-h,7rem)-1.5rem)] overflow-y-auto rounded-2xl border border-[color:var(--line)] bg-[color:var(--card)] p-4 shadow-2xl sm:mx-4">
+          <button
+            type="button"
+            aria-label="Fechar menu"
+            tabIndex={-1}
+            onClick={closeAll}
+            className="fixed inset-0 -z-10 cursor-default bg-black/45"
+          />
+          <div
+            id="dh-mobile"
+            className="dh-slam mx-2 mb-4 mt-2 max-h-[calc(100svh-var(--header-h,7rem)-1.5rem)] overflow-y-auto rounded-2xl border border-[color:var(--line)] bg-[color:var(--card)] p-4 shadow-2xl sm:mx-4"
+          >
             {MENU.map((it) => (
               <details key={it.k} className="border-b border-[color:var(--line)]">
-                <summary className="flex cursor-pointer list-none items-center justify-between py-4 text-lg font-bold">{t[it.k]}<ChevronDown size={20} className="dh-chev" /></summary>
-                <div className="pb-3">{it.sub.map(([n, h, d]) => <A key={n} h={h} className="dh-it" onClick={closeAll}><span>{n}<small>{d}</small></span></A>)}</div>
+                <summary className="flex cursor-pointer list-none items-center justify-between py-4 text-lg font-bold">
+                  {t[it.k]}
+                  <ChevronDown size={20} className="dh-chev" />
+                </summary>
+                <div className="pb-3">
+                  {it.sub.map(([n, h, d]) => (
+                    <A key={n} h={h} className="dh-it" onClick={closeAll}>
+                      <span>
+                        {n}
+                        <small>{d}</small>
+                      </span>
+                    </A>
+                  ))}
+                </div>
               </details>
             ))}
             <p className="dh-cap mt-4">{t.all}</p>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
               {NAV.map((i) => (
-                <Link key={i.to} to={i.to} onClick={closeAll} activeOptions={{ exact: i.to === "/" }} activeProps={{ className: "on" }} className="dh-chip">{i.label}</Link>
+                <Link
+                  key={i.to}
+                  to={i.to}
+                  onClick={closeAll}
+                  activeOptions={{ exact: i.to === "/" }}
+                  activeProps={{ className: "on" }}
+                  className="dh-chip"
+                >
+                  {i.label}
+                </Link>
               ))}
             </div>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              <A h={SIGNUP} className="dh-btn" onClick={closeAll}>{t.signup}</A>
-              <A h={LOGIN} className="dh-btn-o" onClick={closeAll}>{t.login}</A>
+              <A h={SIGNUP} className="dh-btn" onClick={closeAll}>
+                {t.signup}
+              </A>
+              <A h={LOGIN} className="dh-btn-o" onClick={closeAll}>
+                {t.login}
+              </A>
             </div>
           </div>
         </div>
