@@ -1,5 +1,6 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { Check, ChevronDown, FileText, Globe, Home, LayoutGrid, Menu, Search, UserRound, X } from "lucide-react";
 
 /* ===== AJUSTE AQUI ===== */
@@ -29,9 +30,9 @@ export const ROUTES: string[] = [...NAV.map((i) => i.to), "/perfil"]; // rotas q
 export type L = "pt" | "en" | "es";
 export const LANGS: [L, string][] = [["pt", "Português"], ["en", "English"], ["es", "Español"]];
 const T = {
-  pt: { contact: "Entre em contato conosco", port: "Portfólio", support: "Suporte", account: "Minha conta", home: "Início", discover: "Descubra", products: "Planos", solutions: "Soluções", pricing: "Preços", resources: "Recursos", search: "Pesquisar", ph: "Pesquisar páginas e seções", login: "Fazer login", signup: "Criar conta", wa: "Falar no WhatsApp", quote: "Pedir orçamento", none: "Nada encontrado. Fale com a equipe.", menu: "Menu", more: "Mais", all: "Todas as páginas", profile: "Meu perfil" },
-  en: { contact: "Contact us", port: "Portfolio", support: "Support", account: "My account", home: "Home", discover: "Discover", products: "Plans", solutions: "Solutions", pricing: "Pricing", resources: "Resources", search: "Search", ph: "Search pages and sections", login: "Sign in", signup: "Create account", wa: "Chat on WhatsApp", quote: "Get a quote", none: "Nothing found. Talk to our team.", menu: "Menu", more: "More", all: "All pages", profile: "My profile" },
-  es: { contact: "Contáctenos", port: "Portafolio", support: "Soporte", account: "Mi cuenta", home: "Inicio", discover: "Descubre", products: "Planes", solutions: "Soluciones", pricing: "Precios", resources: "Recursos", search: "Buscar", ph: "Buscar páginas y secciones", login: "Iniciar sesión", signup: "Crear cuenta", wa: "Hablar por WhatsApp", quote: "Pedir presupuesto", none: "Nada encontrado. Habla con el equipo.", menu: "Menú", more: "Más", all: "Todas las páginas", profile: "Mi perfil" },
+  pt: { contact: "Entre em contato conosco", port: "Portfólio", support: "Suporte", account: "Minha conta", home: "Início", discover: "Descubra", products: "Planos", solutions: "Soluções", pricing: "Preços", resources: "Recursos", search: "Pesquisar", ph: "Pesquisar páginas e seções", login: "Fazer login", signup: "Criar conta", wa: "Falar no WhatsApp", quote: "Pedir orçamento", none: "Nada encontrado. Fale com a equipe.", menu: "Menu", more: "Mais", all: "Todas as páginas", profile: "Meu perfil", pick: "Escolha uma página", sections: "Na página inicial" },
+  en: { contact: "Contact us", port: "Portfolio", support: "Support", account: "My account", home: "Home", discover: "Discover", products: "Plans", solutions: "Solutions", pricing: "Pricing", resources: "Resources", search: "Search", ph: "Search pages and sections", login: "Sign in", signup: "Create account", wa: "Chat on WhatsApp", quote: "Get a quote", none: "Nothing found. Talk to our team.", menu: "Menu", more: "More", all: "All pages", profile: "My profile", pick: "Choose a page", sections: "On the home page" },
+  es: { contact: "Contáctenos", port: "Portafolio", support: "Soporte", account: "Mi cuenta", home: "Inicio", discover: "Descubre", products: "Planes", solutions: "Soluciones", pricing: "Precios", resources: "Recursos", search: "Buscar", ph: "Buscar páginas y secciones", login: "Iniciar sesión", signup: "Crear cuenta", wa: "Hablar por WhatsApp", quote: "Pedir presupuesto", none: "Nada encontrado. Habla con el equipo.", menu: "Menú", more: "Más", all: "Todas las páginas", profile: "Mi perfil", pick: "Elige una página", sections: "En la página de inicio" },
 };
 export function useLang(): [L, (l: L) => void] {
   const [l, setL] = useState<L>("pt");
@@ -60,6 +61,7 @@ const MENU: { k: "discover" | "products" | "solutions" | "pricing" | "resources"
   { k: "resources", sub: [["Comunidade", "/comunidade", "Conteúdo e novidades"], ["Perguntas frequentes", "/#faq", "Tire suas dúvidas"], ["Falar no WhatsApp", WHATS, "Resposta em até 24 horas úteis"], ["Meu perfil", "/perfil", "Sua conta e seus dados"]] },
 ];
 
+const SECTIONS: [string, string][] = [["Planos e valores", "/#planos"], ["Calculadora de retorno", "/#calculadora"], ["Como funciona", "/#como"], ["Perguntas frequentes", "/#faq"]];
 const plain = (s: string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
 const CSS = `
@@ -96,10 +98,7 @@ const CSS = `
 .dh-nav::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;background:linear-gradient(90deg,#3f73e0,#a855f7,#22d3ee,#f472b6,#fbbf24,#3f73e0);background-size:300% 100%;animation:dhfl 6s linear infinite}
 @keyframes dhfl{to{background-position:300% 0}}
 @keyframes dhfw{to{background-position:200% 0}}
-.dh-logo{display:grid;place-items:center;flex:none;width:48px;height:48px;border-radius:15px;padding:2px;background:conic-gradient(from var(--a),#3f73e0,#a855f7,#22d3ee,#f472b6,#3f73e0);animation:dha 4s linear infinite;transition:transform .3s}
-.dh-logo img{width:100%;height:100%;border-radius:13px;object-fit:cover;background:var(--bg)}
-.dh-logo:hover{transform:rotate(-6deg) scale(1.07)}
-.dh-word{position:relative;display:inline-block;padding-bottom:11px;font-size:clamp(1.2rem,4.4vw,1.85rem);font-weight:700;letter-spacing:-.03em;line-height:1;text-transform:lowercase;color:var(--ink);white-space:nowrap}
+.dh-word{position:relative;display:inline-block;padding-bottom:11px;font-size:clamp(1.05rem,4vw,1.85rem);font-weight:700;letter-spacing:-.03em;line-height:1;text-transform:none;color:var(--ink);white-space:nowrap}
 .dh-word b{font-weight:700;background:linear-gradient(90deg,#3f73e0,#a855f7,#f472b6,#3f73e0);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:dhfw 5s linear infinite}
 .dh-word svg{position:absolute;left:0;bottom:0;width:100%;height:10px}
 .dh-wide{width:min(94vw,860px);display:grid;grid-template-columns:repeat(3,1fr);gap:2px 8px;padding:12px}
@@ -113,9 +112,9 @@ const CSS = `
 @media(min-width:768px){.dh .dh-hmd{display:inline-flex}}
 @media(min-width:1024px){.dh .dh-hlg{display:inline-flex}}
 @media(min-width:1536px){.dh .dh-h2xl{display:inline-flex}}
-@media(min-width:1280px){.dh .dh-menu,.dh .dh-dock,.dh .dh-sheet,.dh .dh-scrim{display:none}}
-@media(max-width:639px){.dh .dh-top .dh-tb{padding:6px;font-size:.82rem}.dh-nav::after{height:2px}}
-.dh-menu{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--tint);color:var(--ink);font-weight:600;font-size:.95rem;transition:transform .18s,background .2s;-webkit-tap-highlight-color:transparent}
+@media(min-width:1280px){.dh .dh-menu,.dh .dh-sheet,.dh .dh-scrim{display:none}}
+@media(max-width:639px){.dh .dh-top .dh-tb{padding:4px 5px;font-size:.76rem}.dh-top svg{width:14px;height:14px}.dh-nav::after{height:2px}.dh-word{padding-bottom:8px}.dh-word svg{height:7px}}
+.dh-menu{display:inline-flex;align-items:center;gap:8px;height:32px;padding:0 10px;border-radius:999px;border:1px solid var(--line);background:var(--tint);color:var(--ink);font-weight:600;font-size:.95rem;transition:transform .18s,background .2s;-webkit-tap-highlight-color:transparent}
 .dh-menu:active{transform:scale(.92)}
 @media(min-width:640px){.dh-menu{height:44px;padding:0 18px}}
 .dh-scrim{position:fixed;inset:0;z-index:-10;background:rgba(0,0,0,.42);animation:dhfd .2s ease-out}
@@ -124,13 +123,21 @@ const CSS = `
 @media(min-width:640px){.dh-sheet{left:50%;right:auto;width:min(560px,calc(100% - 32px));margin-left:calc(min(560px,100% - 32px)/-2)}}
 @keyframes dhsh{from{opacity:0;transform:translateY(26px) scale(.97)}}
 .dh-grab{display:block;width:40px;height:5px;margin:0 auto 10px;border-radius:5px;background:var(--line)}
-.dh-dock{position:fixed;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));z-index:60;width:min(calc(100% - 24px),440px);height:64px;padding:6px;display:grid;grid-template-columns:repeat(5,1fr);border-radius:999px;transform:translate(-50%,0);background:var(--glass);-webkit-backdrop-filter:blur(22px) saturate(1.9) brightness(1.06);backdrop-filter:blur(22px) saturate(1.9) brightness(1.06);border:1px solid var(--rim);box-shadow:inset 0 1px 1px var(--hi),inset 0 -1px 1px var(--lo),0 18px 40px -14px rgba(0,0,0,.5),0 2px 8px rgba(0,0,0,.12);transition:transform .4s cubic-bezier(.3,1.2,.5,1),opacity .25s}
-.dh-dock::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.4),transparent 48%);opacity:.55;pointer-events:none}
-.dh-dock.hide{transform:translate(-50%,150%);opacity:0}
-.dh-ind{position:absolute;left:6px;top:6px;bottom:6px;width:calc((100% - 12px)/5);border-radius:999px;background:var(--pill);box-shadow:inset 0 1px 1px var(--hi),0 2px 10px rgba(0,0,0,.1);transition:transform .45s cubic-bezier(.3,1.35,.5,1),opacity .2s;will-change:transform}
-.dh-cell{position:relative;z-index:1;display:grid;place-items:center;border-radius:999px;color:var(--ink);-webkit-tap-highlight-color:transparent;transition:transform .2s cubic-bezier(.3,1.5,.5,1)}
-.dh-cell:active{transform:scale(.84)}
-.dh-av{width:30px;height:30px;border-radius:999px;object-fit:cover;box-shadow:0 0 0 2px var(--ink)}
+.dh-dock,.dh-dock *{box-sizing:border-box}
+.dh-dock{position:fixed;left:0;right:0;margin:0 auto;bottom:calc(10px + env(safe-area-inset-bottom));z-index:70;width:min(calc(100% - 28px),420px);height:62px;padding:5px;display:grid;grid-template-columns:repeat(5,1fr);border-radius:999px;isolation:isolate;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;background:linear-gradient(180deg,rgba(255,255,255,.07) 0%,rgba(255,255,255,0) 48%,rgba(0,0,0,.14) 100%),rgba(0,0,0,.2);-webkit-backdrop-filter:blur(32px) saturate(1.6) brightness(.5) contrast(1.08);backdrop-filter:blur(32px) saturate(1.6) brightness(.5) contrast(1.08);box-shadow:0 0 0 .5px rgba(255,255,255,.16),inset 0 1px 0 rgba(255,255,255,.3),inset 0 10px 16px -12px rgba(255,255,255,.16),inset 0 -10px 16px -12px rgba(0,0,0,.5),0 22px 48px -16px rgba(0,0,0,.7),0 6px 16px -6px rgba(0,0,0,.4)}
+.dh-dock::before{content:"";position:absolute;inset:0;padding:1px;border-radius:inherit;pointer-events:none;background:linear-gradient(140deg,rgba(255,255,255,.5),rgba(255,255,255,.06) 32%,rgba(255,255,255,.02) 68%,rgba(255,255,255,.22));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.dh-dock::after{content:"";position:absolute;left:14%;right:14%;top:1px;height:40%;border-radius:999px;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,0))}
+.dh-ind{position:absolute;left:5px;top:5px;bottom:5px;width:calc((100% - 10px)/5);border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.24),rgba(255,255,255,.1));box-shadow:0 0 0 .5px rgba(255,255,255,.2),inset 0 1px 0 rgba(255,255,255,.45),inset 0 -6px 10px -6px rgba(255,255,255,.14),0 6px 16px -6px rgba(0,0,0,.55);transition:transform .5s cubic-bezier(.3,1.4,.5,1),opacity .2s}
+.dh-cell{position:relative;z-index:1;display:grid;place-items:center;border-radius:999px;color:#ffffffc7;transition:transform .2s cubic-bezier(.3,1.5,.5,1),color .2s}
+.dh-cell svg{filter:drop-shadow(0 1px 2px rgba(0,0,0,.45))}
+.dh-cell.on{color:#ffffff}
+.dh-cell:active{transform:scale(.88)}
+.dh-dock :is(a,button):focus-visible{outline:2px solid #8ec5ff;outline-offset:-3px}
+.dh-dot{position:absolute;top:11px;right:calc(50% - 20px);width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#7dd3fc,#c084fc);box-shadow:0 0 0 2px rgba(10,12,16,.85),0 0 8px rgba(125,211,252,.55)}
+.dh-av{width:28px;height:28px;border-radius:999px;object-fit:cover;box-shadow:0 0 0 1.5px rgba(255,255,255,.9)}
+@media(min-width:1280px){.dh-dock{display:none}}
+@media(prefers-reduced-transparency:reduce){.dh-dock{background:rgba(10,12,16,.94);-webkit-backdrop-filter:none;backdrop-filter:none}}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.dh-dock{background:rgba(10,12,16,.88)}}
 .dh-slam{animation:dhsl .5s cubic-bezier(.2,.9,.2,1) both}
 @keyframes dhsl{from{opacity:0;transform:translateY(24px) scale(.96);filter:blur(6px)}}
 .dh-chev{transition:transform .25s}
@@ -177,8 +184,8 @@ export function Header() {
   const [q, setQ] = useState("");
   const [scrolled, setScrolled] = useState(false);
   const [photo, setPhoto] = useState("");
-  const [hideDock, setHideDock] = useState(false);
-  const lastY = useRef(0);
+  const [mobile, setMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const barRef = useRef<HTMLDivElement>(null);
@@ -199,6 +206,16 @@ export function Header() {
     else if (ROUTES.includes(h)) navigate({ to: h as "/" });
     else window.location.href = h;
   };
+
+  /* mobile = abaixo de 1280px (onde aparecem o menu rápido e a seleção de páginas) */
+  useEffect(() => {
+    setMounted(true);
+    const m = window.matchMedia("(max-width:1279px)");
+    const f = () => setMobile(m.matches);
+    f();
+    m.addEventListener("change", f);
+    return () => m.removeEventListener("change", f);
+  }, []);
 
   /* fecha tudo ao trocar de página */
   useEffect(() => { closeAll(); }, [pathname]);
@@ -227,19 +244,14 @@ export function Header() {
 
   /* trava a rolagem do fundo com o menu mobile aberto */
   useEffect(() => {
-    if (!open) return;
+    if (!(open || (find && mobile))) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = prev; };
-  }, [open]);
+  }, [open, find, mobile]);
 
   useEffect(() => {
-    const on = () => {
-      const y = window.scrollY;
-      setScrolled(y > 24);
-      const d = y - lastY.current;
-      if (Math.abs(d) > 10) { setHideDock(d > 0 && y > 160); lastY.current = y; }
-    };
+    const on = () => setScrolled(window.scrollY > 24);
     on();
     window.addEventListener("scroll", on, { passive: true });
     return () => window.removeEventListener("scroll", on);
@@ -281,7 +293,7 @@ export function Header() {
               <A h={SIGNUP} className="dh-it">{t.signup}</A>
               <A h="/perfil" className="dh-it">{t.profile}</A>
             </Drop>
-            <Link to="/perfil" aria-label={t.profile} title={t.profile} className="mr-0.5 grid h-8 w-8 max-sm:h-7 max-sm:w-7 shrink-0 place-items-center overflow-hidden rounded-full border-2 border-white text-white transition-transform hover:scale-110">
+            <Link to="/perfil" aria-label={t.profile} title={t.profile} className="mr-0.5 grid h-8 w-8 max-sm:h-6 max-sm:w-6 shrink-0 place-items-center overflow-hidden rounded-full border-2 border-white text-white transition-transform hover:scale-110">
               {photo ? <img src={photo} alt="" className="h-full w-full object-cover" /> : <UserRound size={17} />}
             </Link>
           </div>
@@ -289,11 +301,10 @@ export function Header() {
 
         {/* navegação principal */}
         <nav aria-label="Principal" className={`dh-nav ${scrolled ? "sc" : ""}`}>
-          <div className={`dh-w relative flex items-center gap-3 transition-[height] duration-300 ${scrolled ? "h-[50px] sm:h-[62px] xl:h-[78px]" : "h-[56px] sm:h-[70px] xl:h-[94px]"}`}>
+          <div className={`dh-w relative flex items-center gap-3 transition-[height] duration-300 ${scrolled ? "h-[42px] sm:h-[58px] xl:h-[78px]" : "h-[46px] sm:h-[66px] xl:h-[94px]"}`}>
             <Link to="/" onClick={closeAll} aria-label="Diamante Dev — início" className="mr-1 flex shrink-0 items-center gap-3 xl:mr-4">
-              
               <span className="dh-word">
-                diamante<b> dev</b>
+                Diamante<b> Dev</b>
                 <svg viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden>
                   <defs><linearGradient id="dhlg"><stop offset="0" stopColor="#3f73e0" /><stop offset=".5" stopColor="#a855f7" /><stop offset="1" stopColor="#f472b6" /></linearGradient></defs>
                   <path d="M2 2 Q50 13 98 2" fill="none" stroke="url(#dhlg)" strokeWidth="3.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
@@ -328,7 +339,7 @@ export function Header() {
               </button>
             </div>
 
-            {find && (
+            {find && !mobile && (
               <>
                 <button type="button" aria-label="Fechar pesquisa" tabIndex={-1} onClick={closeAll} className="fixed inset-0 -z-10 cursor-default bg-black/30 backdrop-blur-[2px]" />
                 <div className="dh-slam absolute inset-x-[clamp(8px,3vw,40px)] top-full z-10 mt-2 rounded-2xl border border-[color:var(--line)] bg-[color:var(--card)] p-4 shadow-2xl">
@@ -376,17 +387,40 @@ export function Header() {
         </div>
       )}
 
-      {/* atalhos rápidos em vidro (estilo iOS 26 / Instagram): Início · Páginas · Orçamento · Busca · Perfil */}
-      <nav aria-label="Atalhos" className={`dh-dock ${hideDock && !open && !find ? "hide" : ""}`}>
-        <span aria-hidden className="dh-ind" style={{ transform: `translateX(${Math.max(idx, 0) * 100}%)`, opacity: idx < 0 ? 0 : 1 }} />
-        <Link to="/" onClick={closeAll} aria-label={t.home} title={t.home} aria-current={idx === 0 ? "page" : undefined} className="dh-cell"><Home size={25} strokeWidth={idx === 0 ? 2.5 : 1.9} /></Link>
-        <button type="button" aria-label={t.menu} title={t.menu} aria-expanded={open} aria-controls="dh-mobile" onClick={() => { setFind(false); setOpen((v) => !v); }} className="dh-cell"><LayoutGrid size={24} strokeWidth={idx === 1 ? 2.5 : 1.9} /></button>
-        <Link to="/contato" onClick={closeAll} aria-label={t.quote} title={t.quote} aria-current={idx === 2 ? "page" : undefined} className="dh-cell"><FileText size={25} strokeWidth={idx === 2 ? 2.5 : 1.9} color="var(--blue)" /></Link>
-        <button type="button" aria-label={t.search} title={t.search} aria-expanded={find} onClick={() => { setOpen(false); setFind((v) => !v); }} className="dh-cell"><Search size={25} strokeWidth={idx === 3 ? 2.5 : 1.9} /></button>
-        <Link to="/perfil" onClick={closeAll} aria-label={t.profile} title={t.profile} aria-current={idx === 4 ? "page" : undefined} className="dh-cell">
-          {photo ? <img src={photo} alt="" className="dh-av" /> : <UserRound size={25} strokeWidth={idx === 4 ? 2.5 : 1.9} />}
-        </Link>
-      </nav>
+      {/* pesquisar no mobile: seleção de páginas, sem campo de texto e sem abrir o teclado */}
+      {find && mobile && (
+        <div>
+          <button type="button" aria-label="Fechar pesquisa" tabIndex={-1} onClick={closeAll} className="dh-scrim" />
+          <div role="dialog" aria-label={t.pick} className="dh-sheet">
+            <span className="dh-grab" aria-hidden />
+            <p className="dh-cap">{t.pick}</p>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+              {NAV.map((i) => (
+                <Link key={i.to} to={i.to} onClick={closeAll} activeOptions={{ exact: i.to === "/" }} activeProps={{ className: "on" }} className="dh-chip">{i.label}</Link>
+              ))}
+            </div>
+            <p className="dh-cap mt-3">{t.sections}</p>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+              {SECTIONS.map(([n, h]) => <A key={h} h={h} className="dh-chip" onClick={closeAll}>{n}</A>)}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* atalhos em vidro (estilo iOS 26 / Instagram). Vai para o <body> (portal): fica fixo na tela o tempo todo, ao subir e descer */}
+      {mounted && createPortal(
+        <nav aria-label="Atalhos" className="dh-dock">
+          <span aria-hidden className="dh-ind" style={{ transform: `translateX(${Math.max(idx, 0) * 100}%)`, opacity: idx < 0 ? 0 : 1 }} />
+          <Link to="/" onClick={closeAll} aria-label={t.home} title={t.home} aria-current={idx === 0 ? "page" : undefined} className={`dh-cell ${idx === 0 ? "on" : ""}`}><Home size={25} strokeWidth={idx === 0 ? 2 : 1.7} fill={idx === 0 ? "currentColor" : "none"} /></Link>
+          <button type="button" aria-label={t.menu} title={t.menu} aria-expanded={open} aria-controls="dh-mobile" onClick={() => { setFind(false); setOpen((v) => !v); }} className={`dh-cell ${idx === 1 ? "on" : ""}`}><LayoutGrid size={24} strokeWidth={idx === 1 ? 2.2 : 1.7} /></button>
+          <Link to="/contato" onClick={closeAll} aria-label={t.quote} title={t.quote} aria-current={idx === 2 ? "page" : undefined} className={`dh-cell ${idx === 2 ? "on" : ""}`}><FileText size={25} strokeWidth={idx === 2 ? 2.2 : 1.7} /><i className="dh-dot" aria-hidden /></Link>
+          <button type="button" aria-label={t.search} title={t.search} aria-expanded={find} onClick={() => { setOpen(false); setFind((v) => !v); }} className={`dh-cell ${idx === 3 ? "on" : ""}`}><Search size={25} strokeWidth={idx === 3 ? 2.2 : 1.7} /></button>
+          <Link to="/perfil" onClick={closeAll} aria-label={t.profile} title={t.profile} aria-current={idx === 4 ? "page" : undefined} className={`dh-cell ${idx === 4 ? "on" : ""}`}>
+            {photo ? <img src={photo} alt="" className="dh-av" /> : <UserRound size={25} strokeWidth={idx === 4 ? 2.2 : 1.7} />}
+          </Link>
+        </nav>,
+        document.body,
+      )}
     </header>
   );
 }
