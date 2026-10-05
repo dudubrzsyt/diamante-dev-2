@@ -68,6 +68,7 @@ const CSS = `
 .df-so:hover{transform:translateY(-4px) rotate(-6deg);background:linear-gradient(135deg,#3f73e0,#a855f7);border-color:#ffffff59}
 .df-cr{display:inline-flex;align-items:center;gap:6px;padding:11px 18px;border-radius:999px;font-size:.85rem;font-weight:700;color:#ffffff;border:1px solid #ffffff40;background:#ffffff14;transition:transform .25s,background .25s}
 .df-cr:hover{transform:translateY(-3px);background:#ffffff26}
+@media(max-width:1279px){.df{padding-bottom:calc(92px + env(safe-area-inset-bottom))}}
 .df-rv{opacity:0;transform:translateY(40px);filter:blur(6px);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1),filter .7s}
 .df-rv.in{opacity:1;transform:none;filter:none}
 .df :is(a,button):focus-visible{outline:3px solid #62adff;outline-offset:3px}
