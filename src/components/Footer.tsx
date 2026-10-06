@@ -5,7 +5,7 @@ import logoImg from "@/assets/logo.jpeg";
 import { PHONE_NUMBER } from "@/lib/whatsapp";
 import { LANGS, LOGIN, ROUTES, SIGNUP, useLang } from "@/components/Header";
 
-const EMAIL = "igordiamantedev.com.br@gmail.com";
+const EMAIL = "contato@diamantedev.com.br";
 const WHATSAPP_LABEL = "(11) 99004-7011";
 const WHATSAPP_URL = `https://wa.me/5511990047011?text=${encodeURIComponent("Olá! Vim pelo site e gostaria de um orçamento.")}`;
 const MAP_LINK = "https://www.google.com/maps/search/?api=1&query=S%C3%A3o+Paulo%2C+SP";
@@ -131,7 +131,7 @@ export function Footer() {
     { h: f.discover, items: [["/", "Início"], ["/sobre", "Sobre"], ["/comunidade", "Comunidade"], ["/#planos", f.plans], ["/#faq", f.faq], ["/contato", "Contato"]] },
     { h: f.products, items: [["/produtos", "Produtos"], ["/servicos", "Serviços"], ["/corte-e-dobra", "Corte e dobra"], ["/armaduras-prontas", "Armaduras prontas"], ["/vergalhao-ca-50", "Vergalhão CA-50"]] },
     { h: f.solutions, items: [["/solucoes-para-construtoras", "Para construtoras"], ["/entrega-de-aco", "Entrega de aço"], ["/consultoria-tecnica", "Consultoria"], ["/orcamento-de-aco", "Orçamento"]] },
-    { h: f.help, items: [["/contato", f.contact], [WHATSAPP_URL, `WhatsApp · ${WHATSAPP_LABEL}`], [`mailto:${EMAIL}`, EMAIL], [`tel:${PHONE_NUMBER}`, "(11) 5522-9775"], ["/perfil", f.account], [LOGIN, f.login], [MAP_LINK, f.loc]] },
+    { h: f.help, items: [["/contato", f.contact], [WHATSAPP_URL, `WhatsApp · ${WHATSAPP_LABEL}`], [`mailto:${EMAIL}`, EMAIL], [`tel:${PHONE_NUMBER}`, "TELEFONE (55) 99004-7011"], ["/perfil", f.account], [LOGIN, f.login], [MAP_LINK, f.loc]] },
   ];
   return (
     /* div (e não <footer>) para não herdar regras antigas do CSS global que deixavam a footer alta */
@@ -161,8 +161,8 @@ export function Footer() {
           </div>
           <p className="df-copy">© {new Date().getFullYear()} Diamante Dev. {f.rights}</p>
           <div className="df-end">
-            <a className="df-so" href="https://www.instagram.com/novablldobrasil/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram"><Instagram size={19} /></a>
-            <a className="df-so" href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook"><Facebook size={19} /></a>
+            <a className="df-so" href="https://www.instagram.com/igoreduardo.dev/?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram"><Instagram size={19} /></a>
+            <a className="df-so" href="https://www.facebook.com/igor.eduardo12l/directory_personal_details" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook"><Facebook size={19} /></a>
             <a className="df-so" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp"><MessageCircle size={19} /></a>
             <a className="df-so" href={`mailto:${EMAIL}`} aria-label="E-mail" title="E-mail"><Mail size={19} /></a>
             <a className="df-cr" href="https://www.instagram.com/igoreduardo.dev/?hl=en" target="_blank" rel="noopener noreferrer">{f.credit} Igor Eduardo</a>

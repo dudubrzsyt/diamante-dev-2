@@ -18,7 +18,7 @@ export const Route = createFileRoute("/")({
 });
 
 /* ===== AJUSTE AQUI ===== */
-const WHATS = "https://wa.me/5511999999999"; // seu WhatsApp
+const WHATS = "https://wa.me/5511990047011"; // seu WhatsApp
 const INTERNAL = ["/contato", "/sobre"]; // rotas que usam <Link>
 /* VALORES E PRAZOS SÃO EXEMPLOS: ajuste aqui e a página inteira se atualiza. */
 const PLANS = [
@@ -486,7 +486,8 @@ function Contact() {
       <a href="#planos" aria-label="Ver planos" className="fixed right-0 top-[46%] z-50 grid h-12 w-12 place-items-center rounded-l-xl border border-r-0 border-[color:var(--line)] bg-[color:var(--card)] text-[color:var(--ink)] shadow-lg transition-transform hover:-translate-x-1">
         <Star size={22} />
       </a>
-      <div className="dd-fab fixed bottom-[calc(92px+env(safe-area-inset-bottom))] right-4 z-[60] xl:bottom-5 xl:right-5">
+      <div className="dd-fab fixed bottom-[calc(230px+env(safe-area-inset-bottom))] right-4 z-[60] xl:bottom-60 xl:right-5">
+
         {o && (
           <div className="dd-pop r !bottom-[84px] !top-auto !mt-0 w-[min(90vw,340px)] !p-5">
             <p className="text-xl font-bold">Fale com a Diamante Dev</p>

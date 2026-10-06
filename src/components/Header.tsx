@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import { Check, ChevronDown, FileText, Globe, Home, LayoutGrid, Menu, Search, UserRound, X } from "lucide-react";
 
 /* ===== AJUSTE AQUI ===== */
-const WHATS = "https://wa.me/5511999999999"; // seu WhatsApp
+const WHATS = "https://wa.me/5511990047011"; // seu WhatsApp
 export const LOGIN = "/login"; // rota de login
 export const SIGNUP = "/criar-conta"; // rota de criar conta
 export const NAV = [
