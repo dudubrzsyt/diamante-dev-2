@@ -2,7 +2,7 @@ import { Instagram, Moon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { whatsappLink } from "@/lib/whatsapp";
 
-const INSTAGRAM_URL = (import.meta.env.VITE_INSTAGRAM_URL || "https://www.instagram.com/novablldobrasil/?hl=en").trim();
+const INSTAGRAM_URL = (import.meta.env.VITE_INSTAGRAM_URL || "https://www.instagram.com/igoreduardo.dev/?hl=en").trim();
 
 export function FloatingBubbles() {
   const [monochrome, setMonochrome] = useState(false);
@@ -48,7 +48,7 @@ export function FloatingBubbles() {
         <Instagram size={24} strokeWidth={2.5} />
       </a>
       <a
-        href={whatsappLink("Olá! Quero falar com a Nova Bll do Brasil sobre minha obra.")}
+        href={whatsappLink("Olá! Quero falar com a Diamante Dev. Sobre meu site.")}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="WhatsApp"

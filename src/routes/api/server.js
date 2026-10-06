@@ -41,7 +41,7 @@ async function handleUnlockRequest(req, res) {
     await fetch(process.env.ADMIN_UNLOCK_WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ to: email, subject: 'Desbloqueio do painel Nova Bll do Brasil', text: `Use este link uma única vez e em até 15 minutos: ${link}` }),
+      body: JSON.stringify({ to: email, subject: 'Desbloqueio do painel Diamante Dev', text: `Use este link uma única vez e em até 15 minutos: ${link}` }),
     });
   }
   jsonResponse(res, 200, generic);

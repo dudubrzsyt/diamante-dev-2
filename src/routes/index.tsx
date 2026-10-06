@@ -486,20 +486,11 @@ function Contact() {
       <a href="#planos" aria-label="Ver planos" className="fixed right-0 top-[46%] z-50 grid h-12 w-12 place-items-center rounded-l-xl border border-r-0 border-[color:var(--line)] bg-[color:var(--card)] text-[color:var(--ink)] shadow-lg transition-transform hover:-translate-x-1">
         <Star size={22} />
       </a>
-      <div className="dd-fab fixed bottom-[calc(230px+env(safe-area-inset-bottom))] right-4 z-[60] xl:bottom-60 xl:right-5">
-
-        {o && (
-          <div className="dd-pop r !bottom-[84px] !top-auto !mt-0 w-[min(90vw,340px)] !p-5">
-            <p className="text-xl font-bold">Fale com a Diamante Dev</p>
-            <p className="dd-p mt-1 text-sm">Resposta em até 24 horas úteis.</p>
-            <div className="mt-4 grid gap-3">
-              <A h={WHATS} className="dd-btn !py-3.5 !text-base">Falar no WhatsApp</A>
-              <A h="/contato" className="dd-btn-o !py-3.5 !text-base" onClick={() => setO(false)}>Pedir orçamento</A>
-            </div>
-          </div>
-        )}
+     
+         
+       
         <button type="button" aria-label="Contato" aria-expanded={o} onClick={() => setO(!o)}>{o ? <X size={28} /> : <MessageCircle size={30} />}</button>
-      </div>
+     
     </>
   );
 }

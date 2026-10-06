@@ -21,7 +21,7 @@ function buildWhatsAppLink(form: { nome: string; email: string; telefone: string
   return whatsappLink(text);
 }
 
-export function ContactForm({ title = "Fale com a gente", subtitle = "Resposta em até 24h úteis. Telefone: (11) 5522-9775 | WhatsApp: (11) 99217-9989", compact }: Props) {
+export function ContactForm({ title = "Fale com a gente", subtitle = "Resposta em até 24h úteis. Telefone: (55) 11990047011 | WhatsApp: (55) 11990047011", compact }: Props) {
   const [sent, setSent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedback, setFeedback] = useState("");
@@ -143,7 +143,7 @@ export function ContactForm({ title = "Fale com a gente", subtitle = "Resposta e
             href={`tel:${PHONE_NUMBER}`}
             className="inline-flex w-full items-center justify-center rounded-md border border-brand-yellow/50 bg-transparent px-4 py-2.5 text-xs font-black uppercase tracking-[0.14em] text-brand-yellow transition-all duration-300 hover:bg-brand-yellow/10 md:w-auto"
           >
-            Ligar (11) 5522-9775
+            Ligar (55) 11990047011
           </a>
           <button type="submit" disabled={isSubmitting} className="btn-hero btn-hero-hover flex w-full items-center justify-center gap-2 md:w-auto md:self-start">
             {isSubmitting ? (
